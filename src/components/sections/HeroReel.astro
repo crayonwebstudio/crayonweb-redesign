@@ -30,7 +30,11 @@ import RevealText from '../motion/RevealText.astro';
     <button id="reel-close" type="button" class="absolute right-6 top-6 rounded-full border border-white/40 px-5 py-2.5 text-sm text-white hover:bg-white hover:text-ink">Close, Esc</button>
     <div class="w-full max-w-4xl">
       <div class="relative aspect-video w-full overflow-hidden rounded-xl" style="background: linear-gradient(120deg, #0A0A0A, #2b2b2b 40%, #6b5a2a 75%, #FCD16E);">
-        <p class="absolute inset-0 flex items-center justify-center text-center font-display text-2xl font-semibold text-white md:text-4xl">Crayonweb Studio, Showreel 2026<br /><span class="mt-2 block text-base font-normal text-white/80">Brand, TYPO3, Headless, Commerce, AI</span></p>
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-5 p-6 text-center">
+          <img src="/logo/crayon-bird-white.png" alt="" width="487" height="486" class="h-16 w-auto opacity-90" />
+          <p class="font-display text-2xl font-semibold text-white md:text-4xl">Crayonweb Studio, Showreel 2026<br /><span class="mt-2 block text-base font-normal text-white/80">Brand, TYPO3, Headless, Commerce, AI</span></p>
+          <img src="/logo/crayon-logo-light.png" alt="Crayonweb Studio" width="250" height="59" class="h-7 w-auto" />
+        </div>
       </div>
       <p class="mt-4 text-center text-sm text-white/70">Showreel placeholder: final video ships with the launch cut. Press Esc or Close to return.</p>
     </div>

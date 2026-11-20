@@ -11,8 +11,8 @@ const current = Astro.url.pathname;
 
 <header class="fixed top-0 left-0 right-0 z-50 border-b border-hairline bg-canvas/90 backdrop-blur-md">
   <div class="mx-auto flex max-w-[1440px] items-center justify-between px-5 py-4 md:px-10">
-    <a href="/" class="font-display text-lg font-bold tracking-tight" data-cursor="Home">
-      Crayonweb<span class="text-muted font-medium"> Studio</span>
+    <a href="/" data-cursor="Home" aria-label="Crayonweb Studio, home">
+      <img src="/logo/crayon-bird.png" alt="Crayonweb Studio" width="166" height="165" class="h-9 w-auto" />
     </a>
     <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
       {nav.map((item) => (
