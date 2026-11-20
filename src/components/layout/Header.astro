@@ -20,6 +20,37 @@ const menu = [
 ];
 ---
 
+<style>
+  .menu-overlay { opacity: 0; visibility: hidden; transition: opacity .5s cubic-bezier(.22, 1, .36, 1), visibility 0s linear .5s; }
+  .menu-overlay.is-open { opacity: 1; visibility: visible; transition: opacity .5s cubic-bezier(.22, 1, .36, 1); }
+  .menu-panel-left { transform: translateX(-48px); transition: transform .65s cubic-bezier(.22, 1, .36, 1); }
+  .menu-panel-right { transform: translateX(48px); transition: transform .65s cubic-bezier(.22, 1, .36, 1) .08s; }
+  .menu-overlay.is-open .menu-panel-left, .menu-overlay.is-open .menu-panel-right { transform: translateX(0); }
+  .menu-anim-item { opacity: 0; transform: translateY(26px); transition: opacity .55s cubic-bezier(.22, 1, .36, 1) var(--d, 0ms), transform .55s cubic-bezier(.22, 1, .36, 1) var(--d, 0ms); }
+  .menu-overlay.is-open .menu-anim-item { opacity: 1; transform: translateY(0); }
+  .menu-row .menu-dash { transition: width .35s cubic-bezier(.22, 1, .36, 1), background-color .35s ease; }
+  .menu-row:hover .menu-dash { width: 2.5rem; background-color: #FCD16E; }
+  .menu-row .menu-link { transition: color .3s ease, transform .35s cubic-bezier(.22, 1, .36, 1); }
+  .menu-row:hover .menu-link { transform: translateX(6px); }
+  .submenu { max-height: 0; overflow: hidden; transition: max-height .6s cubic-bezier(.22, 1, .36, 1); }
+  .submenu.open { max-height: 560px; }
+  .submenu li { opacity: 0; transform: translateY(8px); transition: opacity .4s ease, transform .4s ease; }
+  .submenu.open li { opacity: 1; transform: translateY(0); }
+  .submenu.open li:nth-child(1) { transition-delay: .05s; } .submenu.open li:nth-child(2) { transition-delay: .1s; }
+  .submenu.open li:nth-child(3) { transition-delay: .15s; } .submenu.open li:nth-child(4) { transition-delay: .2s; }
+  .submenu.open li:nth-child(5) { transition-delay: .25s; } .submenu.open li:nth-child(6) { transition-delay: .3s; }
+  .submenu.open li:nth-child(7) { transition-delay: .35s; } .submenu.open li:nth-child(8) { transition-delay: .4s; }
+  .submenu-toggle { transition: transform .45s cubic-bezier(.22, 1, .36, 1), border-color .3s ease, color .3s ease; }
+  .submenu-toggle.is-open { transform: rotate(90deg); }
+  .menu-burger span { transition: width .35s cubic-bezier(.22, 1, .36, 1); }
+  .menu-burger:hover span:last-child { width: 1.75rem; }
+  .menu-close { transition: transform .45s cubic-bezier(.22, 1, .36, 1), background-color .3s ease, color .3s ease; }
+  .menu-close:hover { transform: rotate(90deg); }
+  @media (prefers-reduced-motion: reduce) {
+    .menu-overlay, .menu-panel-left, .menu-panel-right, .menu-anim-item, .submenu, .submenu li { transition: none; }
+  }
+</style>
+
 <header class="relative z-40">
   <div class="mx-auto flex max-w-[1440px] items-start justify-between px-5 md:px-10">
     <a href="/" data-cursor="Home" aria-label="Crayonweb Studio, home" class="block py-4">
@@ -27,7 +58,7 @@ const menu = [
     </a>
     <div class="flex h-[88px] items-center gap-6 bg-ink px-5 md:px-8">
       <a href="mailto:info@crayonwebstudio.com" class="hidden text-sm font-bold text-white transition-colors hover:text-[#FCD16E] sm:block">info@crayonwebstudio.com</a>
-      <button id="menu-open" type="button" aria-label="Sidebar Menu" aria-controls="site-menu" aria-expanded="false" class="flex h-10 w-10 flex-col items-end justify-center gap-[7px]">
+      <button id="menu-open" type="button" aria-label="Sidebar Menu" aria-controls="site-menu" aria-expanded="false" class="menu-burger flex h-10 w-10 flex-col items-end justify-center gap-[7px]">
         <span class="block h-[2px] w-7 bg-white"></span>
         <span class="block h-[2px] w-5 bg-white"></span>
       </button>
@@ -35,26 +66,26 @@ const menu = [
   </div>
 </header>
 
-<div id="site-menu" class="fixed inset-0 z-[100] hidden overflow-y-auto bg-canvas" role="dialog" aria-modal="true" aria-label="Site menu">
+<div id="site-menu" class="menu-overlay fixed inset-0 z-[100] overflow-y-auto bg-canvas" role="dialog" aria-modal="true" aria-label="Site menu">
   <div class="flex min-h-full flex-col md:flex-row">
-    <nav class="flex flex-1 flex-col justify-center bg-ink px-8 py-20 md:w-1/2 md:px-16" aria-label="Menu">
+    <nav class="menu-panel-left flex flex-1 flex-col justify-center bg-ink px-8 py-20 md:w-1/2 md:px-16" aria-label="Menu">
       <ul class="space-y-5">
-        {menu.map((item) => (
-          <li>
+        {menu.map((item, i) => (
+          <li class="menu-anim-item" style={`--d: ${140 + i * 70}ms`}>
             {item.children ? (
-              <div class="flex flex-wrap items-center gap-3">
-                <span class="h-[2px] w-6 shrink-0 bg-white/60" aria-hidden="true"></span>
+              <div class="menu-row flex flex-wrap items-center gap-3">
+                <span class="menu-dash h-[2px] w-6 shrink-0 bg-white/60" aria-hidden="true"></span>
                 <a href={item.href} class="menu-link font-display text-3xl font-bold uppercase tracking-tight text-white transition-colors hover:text-[#FCD16E] md:text-4xl">{item.label}</a>
                 <button type="button" class="submenu-toggle flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/50 text-xl leading-none text-white transition-colors hover:border-[#FCD16E] hover:text-[#FCD16E]" aria-label={`Toggle ${item.label} submenu`} aria-expanded="false">+</button>
-                <ul class="submenu hidden w-full space-y-3 pl-12 pt-2">
+                <ul class="submenu w-full space-y-3 pl-12 pt-2">
                   {item.children.map((child) => (
                     <li><a href={child.href} class="menu-link text-base font-medium text-white/80 transition-colors hover:text-[#FCD16E]">{child.label}</a></li>
                   ))}
                 </ul>
               </div>
             ) : (
-              <div class="flex items-center gap-3">
-                <span class="h-[2px] w-6 shrink-0 bg-white/60" aria-hidden="true"></span>
+              <div class="menu-row flex items-center gap-3">
+                <span class="menu-dash h-[2px] w-6 shrink-0 bg-white/60" aria-hidden="true"></span>
                 <a href={item.href} class="menu-link font-display text-3xl font-bold uppercase tracking-tight text-white transition-colors hover:text-[#FCD16E] md:text-4xl">{item.label}</a>
               </div>
             )}
@@ -62,22 +93,22 @@ const menu = [
         ))}
       </ul>
     </nav>
-    <div class="flex flex-1 flex-col justify-center gap-8 bg-surface px-8 py-16 md:w-1/2 md:px-16">
-      <img src="/logo/crayon-logo-dark.png" alt="Crayonweb Studio" width="279" height="85" class="h-12 w-auto self-start" />
-      <div class="flex gap-5 text-sm font-medium">
+    <div class="menu-panel-right flex flex-1 flex-col justify-center gap-8 bg-surface px-8 py-16 md:w-1/2 md:px-16">
+      <img src="/logo/crayon-logo-dark.png" alt="Crayonweb Studio" width="279" height="85" class="menu-anim-item h-12 w-auto self-start" style="--d: 350ms" />
+      <div class="menu-anim-item flex gap-5 text-sm font-medium" style="--d: 420ms">
         <a href="https://www.facebook.com/crayonwebstudio" target="_blank" rel="noreferrer" class="hover:underline">Facebook</a>
         <a href="https://x.com" target="_blank" rel="noreferrer" class="hover:underline">X</a>
         <a href="https://www.linkedin.com/company/crayonwebstudio" target="_blank" rel="noreferrer" class="hover:underline">LinkedIn</a>
         <a href="https://www.instagram.com" target="_blank" rel="noreferrer" class="hover:underline">Instagram</a>
       </div>
-      <ul class="space-y-2 text-base">
+      <ul class="menu-anim-item space-y-2 text-base" style="--d: 490ms">
         <li><a href="tel:+919624052424" class="hover:underline">+91 96240 52424</a></li>
         <li><a href="mailto:info@crayonwebstudio.com" class="hover:underline">info@crayonwebstudio.com</a></li>
       </ul>
-      <p class="text-sm text-muted">319, 3rd Floor, Sagar Complex, Jasonath Chowk,<br />Bhavnagar-364001, Gujarat, India</p>
+      <p class="menu-anim-item text-sm text-muted" style="--d: 560ms">319, 3rd Floor, Sagar Complex, Jasonath Chowk,<br />Bhavnagar-364001, Gujarat, India</p>
     </div>
   </div>
-  <button id="menu-close" type="button" aria-label="Close menu" class="absolute right-5 top-5 flex h-11 w-11 items-center justify-center rounded-full bg-ink text-xl text-white transition-colors hover:bg-[#FCD16E] hover:text-ink md:right-8">&#10005;</button>
+  <button id="menu-close" type="button" aria-label="Close menu" class="menu-close absolute right-5 top-5 flex h-11 w-11 items-center justify-center rounded-full bg-ink text-xl text-white transition-colors hover:bg-[#FCD16E] hover:text-ink md:right-8">&#10005;</button>
 </div>
 
 <script>
@@ -88,13 +119,13 @@ const menu = [
     if (!overlay || !openBtn || !closeBtn || openBtn.dataset.bound) return;
     openBtn.dataset.bound = 'true';
     function openMenu() {
-      overlay.classList.remove('hidden');
+      overlay.classList.add('is-open');
       document.body.style.overflow = 'hidden';
       openBtn.setAttribute('aria-expanded', 'true');
       closeBtn.focus();
     }
     function closeMenu() {
-      overlay.classList.add('hidden');
+      overlay.classList.remove('is-open');
       document.body.style.overflow = '';
       openBtn.setAttribute('aria-expanded', 'false');
       openBtn.focus();
@@ -107,14 +138,15 @@ const menu = [
         const wrap = btn.closest('div');
         const sub = wrap?.querySelector('.submenu');
         const link = wrap?.querySelector('a');
-        const open = sub?.classList.toggle('hidden') === false;
+        const open = sub?.classList.toggle('open') === true;
         btn.textContent = open ? '−' : '+';
+        btn.classList.toggle('is-open', open);
         btn.setAttribute('aria-expanded', String(open));
         if (link) link.style.color = open ? '#FCD16E' : '';
       });
     });
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !overlay.classList.contains('hidden')) closeMenu();
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeMenu();
     });
   }
   initSiteMenu();

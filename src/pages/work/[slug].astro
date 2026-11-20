@@ -18,8 +18,14 @@ const next = ordered[(idx + 1) % ordered.length];
     <h1 class="mt-4 font-display text-[clamp(2.4rem,6vw,4.6rem)] font-semibold leading-[1.02] tracking-tight">{work.data.title}</h1>
     <p class="mt-6 max-w-2xl text-xl leading-relaxed text-muted">{work.data.summary}</p>
 
-    <div class="relative mt-12 overflow-hidden rounded-xl" style={`background: ${work.data.cover}`}>
-      <div class="flex aspect-[16/8] items-center justify-center">
+    <div class="work-detail-hero group relative mt-12 overflow-hidden rounded-xl" style={`background: ${work.data.cover}`}>
+      {work.data.hoverImage && (
+        <>
+          <img src={work.data.hoverImage} alt="" loading="lazy" class="absolute inset-0 h-full w-full object-cover opacity-25 grayscale transition-all duration-700 ease-out group-hover:opacity-75 group-hover:grayscale-0" />
+          <div class="absolute inset-0 bg-ink/25 opacity-0 transition-opacity duration-700 ease-out group-hover:opacity-100" aria-hidden="true"></div>
+        </>
+      )}
+      <div class="relative z-10 flex aspect-[16/8] items-center justify-center">
         <span class="font-display text-8xl font-bold text-white/90 md:text-9xl">{work.data.initials}</span>
       </div>
     </div>
@@ -63,3 +69,10 @@ const next = ordered[(idx + 1) % ordered.length];
     </a>
   </article>
 </BaseLayout>
+
+<style>
+  /* Touch devices have no hover, so show the detail hero image in colour by default there. */
+  @media (hover: none) {
+    .work-detail-hero img { opacity: .75; filter: grayscale(0); }
+  }
+</style>
