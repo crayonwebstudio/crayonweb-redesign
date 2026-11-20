@@ -1,7 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Testimonials from '../components/sections/Testimonials.astro';
 import { services } from '../content/services';
 const platforms = ['TYPO3 CMS', 'Node JS', 'Next JS', 'Wordpress', 'Flutter', 'React Native', 'Magento', 'Shopify', 'ERPNext', 'Storyblok Headless CMS', 'Strapi Headless CMS'];
+const marquee = ['Brand Design', 'UI/UX Design', 'Mockup Design', 'Multimedia Service', 'SEO Service', 'Web Development', 'Mobile App', 'Web Application', 'ERP Solution'];
 ---
 
 <BaseLayout title="Services: Crayonweb Studio" description="Comprehensive digital services tailored to your business growth. TYPO3 development, web design, branding, digital marketing, CMS, mobile apps, media creation, and AI-powered business solutions.">
@@ -9,6 +11,14 @@ const platforms = ['TYPO3 CMS', 'Node JS', 'Next JS', 'Wordpress', 'Flutter', 'R
     <p class="text-xs uppercase tracking-[0.2em] text-muted">Services</p>
     <h1 class="mt-4 max-w-4xl font-display text-[clamp(2.6rem,6vw,4.8rem)] font-semibold leading-[1.02] tracking-tight">Comprehensive digital services tailored to your business growth.</h1>
     <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">Crayonweb is a creative digital agency that transforms ideas into visually compelling stories. We specialize in TYPO3 development, TYPO3 support, and ongoing website maintenance to ensure your business stays fast, secure, and scalable. Our services include responsive web design, custom TYPO3 extensions, branding, and digital marketing solutions, all designed to deliver seamless user experiences and measurable growth. With a focus on creativity and technology, Crayonweb helps businesses build a powerful online presence and achieve long-term success.</p>
+
+    <div class="service-marquee mt-14 overflow-hidden border-y border-hairline py-5" aria-hidden="true">
+      <div class="service-marquee-track flex w-max gap-10 whitespace-nowrap">
+        {[...marquee, ...marquee].map((m) => (
+          <span class="font-display text-2xl font-semibold text-muted">{m}</span>
+        ))}
+      </div>
+    </div>
 
     <div class="mt-14 grid gap-px overflow-hidden rounded-lg border border-hairline bg-hairline md:grid-cols-2">
       {services.map((s, i) => (
@@ -22,6 +32,12 @@ const platforms = ['TYPO3 CMS', 'Node JS', 'Next JS', 'Wordpress', 'Flutter', 'R
         </a>
       ))}
     </div>
+
+    <section class="mt-20 border-y border-hairline bg-surface/60 px-6 py-14 md:px-10">
+      <h2 class="max-w-2xl font-display text-3xl font-semibold leading-tight tracking-tight md:text-4xl">Simplify your work and get more done!</h2>
+      <p class="mt-4 max-w-2xl text-lg leading-relaxed text-muted">Our powerful features and flexible options streamline your workflow effortlessly.</p>
+      <p class="mt-4 max-w-2xl leading-relaxed text-muted">Transform the way you work with our smart, flexible tools and exclusive features. Make every task faster, simpler, and more efficient, streamline your workflow, and boost productivity, all while focusing on what truly matters for your business growth.</p>
+    </section>
 
     <section class="mt-20">
       <p class="text-xs uppercase tracking-[0.2em] text-muted">Platforms we work with</p>
@@ -37,4 +53,14 @@ const platforms = ['TYPO3 CMS', 'Node JS', 'Next JS', 'Wordpress', 'Flutter', 'R
       <a href="/contact" class="rounded-full border border-ink px-6 py-3 text-sm font-medium">Start a project</a>
     </div>
   </section>
+
+  <Testimonials />
 </BaseLayout>
+
+<style>
+  .service-marquee-track { animation: marquee-scroll 30s linear infinite; }
+  @keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .service-marquee-track { animation: none; }
+  }
+</style>

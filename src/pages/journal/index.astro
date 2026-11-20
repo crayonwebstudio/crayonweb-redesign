@@ -1,7 +1,16 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import JournalSidebar from '../../components/journal/JournalSidebar.astro';
 import { getCollection } from 'astro:content';
-const posts = (await getCollection('journal')).sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+const all = (await getCollection('journal')).sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+const q = (Astro.url.searchParams.get('q') || '').trim();
+const tag = Astro.url.searchParams.get('tag') || '';
+const posts = all.filter((p) => {
+  const hay = `${p.data.title} ${p.data.description} ${p.data.tags.join(' ')} ${p.data.author} ${p.data.category || ''}`.toLowerCase();
+  const okQ = !q || hay.includes(q.toLowerCase());
+  const okTag = !tag || p.data.tags.includes(tag);
+  return okQ && okTag;
+});
 ---
 
 <BaseLayout title="Journal: Crayonweb Studio">
@@ -9,20 +18,57 @@ const posts = (await getCollection('journal')).sort((a, b) => b.data.publishDate
     <p class="text-xs uppercase tracking-[0.2em] text-muted">Journal</p>
     <h1 class="mt-4 font-display text-[clamp(2.6rem,6vw,4.8rem)] font-semibold leading-[1.02] tracking-tight">Notes from<br />the studio.</h1>
     <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted">Practical guides on TYPO3, Composer, and self-hosting, written from real client work.</p>
-    <div class="mt-14">
-      {posts.map((p) => (
-        <a href={`/journal/${p.id.replace(/\.md$/, '')}`} class="group block border-t border-hairline py-10 first:border-t-0">
-          <div class="grid gap-4 md:grid-cols-12 md:gap-8">
-            <p class="text-sm tabular-nums text-muted md:col-span-2">{p.data.publishDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
-            <div class="md:col-span-8">
-              <h2 class="font-display text-2xl font-semibold tracking-tight transition-colors group-hover:underline md:text-3xl">{p.data.title}</h2>
-              <p class="mt-3 max-w-2xl leading-relaxed text-muted">{p.data.description}</p>
-              <p class="mt-3 text-sm text-muted">{p.data.tags.join(', ')} &middot; {p.data.readingTime} min read</p>
-            </div>
-            <span class="hidden text-2xl md:col-span-2 md:block md:text-right" aria-hidden="true">&rarr;</span>
-          </div>
-        </a>
-      ))}
+
+    <div class="mt-14 grid gap-14 lg:grid-cols-12">
+      <div class="lg:col-span-8">
+        {(q || tag) && (
+          <p class="mb-6 text-sm text-muted">
+            {posts.length} {posts.length === 1 ? 'article' : 'articles'}
+            {q && <> matching "{q}"</>}
+            {tag && <> tagged "{tag}"</>}
+            . <a href="/journal" class="font-medium text-ink underline underline-offset-4">Show all</a>
+          </p>
+        )}
+        <div id="journal-list">
+          {posts.map((p) => (
+            <a
+              href={`/journal/${p.id.replace(/\.md$/, '')}`}
+              class="journal-item group block border-t border-hairline py-10 first:border-t-0"
+              data-search={`${p.data.title} ${p.data.description} ${p.data.tags.join(' ')} ${p.data.author} ${p.data.category || ''}`.toLowerCase()}
+            >
+              <div class="grid gap-4 md:grid-cols-12 md:gap-8">
+                <p class="text-sm tabular-nums text-muted md:col-span-2">{p.data.publishDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                <div class="md:col-span-8">
+                  <h2 class="font-display text-2xl font-semibold tracking-tight transition-colors group-hover:underline md:text-3xl">{p.data.title}</h2>
+                  <p class="mt-3 max-w-2xl leading-relaxed text-muted">{p.data.description}</p>
+                  <p class="mt-3 text-sm text-muted">by {p.data.author}{p.data.category ? `, ${p.data.category}` : ''} &middot; {p.data.tags.join(', ')} &middot; {p.data.readingTime} min read</p>
+                </div>
+                <span class="hidden text-2xl md:col-span-2 md:block md:text-right" aria-hidden="true">&rarr;</span>
+              </div>
+            </a>
+          ))}
+        </div>
+        <p id="journal-empty" class="mt-6 hidden text-muted">No articles match your search yet.</p>
+      </div>
+      <div class="lg:col-span-4">
+        <JournalSidebar searchValue={q} activeTag={tag} />
+      </div>
     </div>
   </section>
 </BaseLayout>
+<script>
+  const input = document.getElementById('journal-search');
+  const items = Array.from(document.querySelectorAll('.journal-item'));
+  const empty = document.getElementById('journal-empty');
+  input?.addEventListener('input', () => {
+    const q = String(input.value || '').trim().toLowerCase();
+    let visible = 0;
+    items.forEach((item) => {
+      const hay = item.dataset.search || '';
+      const show = !q || hay.includes(q);
+      item.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    if (empty) empty.classList.toggle('hidden', visible > 0);
+  });
+</script>

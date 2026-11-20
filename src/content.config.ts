@@ -15,7 +15,7 @@ const work = defineCollection({
     challenge: z.string(),
     solution: z.string(),
     techStack: z.array(z.string()),
-    category: z.enum(['Web/TYPO3', 'E-Commerce', 'Brand/UI', 'Mobile']),
+    category: z.enum(['TYPO3', 'Branding', 'WordPress', 'Magento', 'Mobile Application', 'Headless Website']),
     cover: z.string(),
     hoverImage: z.string().optional(),
     initials: z.string(),
@@ -43,6 +43,8 @@ const journal = defineCollection({
     description: z.string(),
     tags: z.array(z.string()),
     readingTime: z.number(),
+    author: z.string().default('Milan Pandya'),
+    category: z.string().optional(),
   }),
 });
 

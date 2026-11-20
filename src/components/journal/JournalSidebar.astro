@@ -1,0 +1,75 @@
+---
+// Tag list with counts exactly as shown in the live blog sidebar.
+const tags = [
+  { name: 'Artificial Intelligence', count: 0 },
+  { name: 'Threat Detection', count: 0 },
+  { name: 'Cloud Services', count: 0 },
+  { name: 'UX Design', count: 1 },
+  { name: 'Digital Transformation', count: 0 },
+  { name: 'UI Trends', count: 0 },
+  { name: 'Web Design', count: 1 },
+  { name: 'TYPO3', count: 2 },
+  { name: 'TYPO3 v13 LTS', count: 1 },
+  { name: 'TYPO3 Installation', count: 1 },
+  { name: 'TYPO3 Composer', count: 1 },
+  { name: 'TYPO3 CMS', count: 2 },
+  { name: 'PHP 8.2', count: 1 },
+  { name: 'Web Development', count: 1 },
+  { name: 'DevOps', count: 1 },
+  { name: 'TYPO3 Backend', count: 1 },
+  { name: 'TYPO3 Best Practices', count: 1 },
+  { name: 'Coolify', count: 1 },
+  { name: 'Coolify Setup', count: 1 },
+  { name: 'Coolify on VPS', count: 1 },
+  { name: 'Coolify Installation Guide', count: 1 },
+  { name: 'Self-Hosted PaaS', count: 1 },
+  { name: 'Vercel Alternative', count: 1 },
+  { name: 'Heroku Alternative', count: 1 },
+  { name: 'Docker Deployment', count: 1 },
+];
+const { searchValue = '', activeTag = '' } = Astro.props;
+---
+
+<aside class="space-y-12">
+  <div>
+    <p class="text-xs uppercase tracking-[0.2em] text-muted">Search here</p>
+    <form id="journal-search-form" action="/journal" method="get" class="mt-4 flex gap-2">
+      <label for="journal-search" class="sr-only">Search articles</label>
+      <input
+        id="journal-search"
+        name="q"
+        type="search"
+        value={searchValue}
+        placeholder="Search articles"
+        class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink"
+      />
+      <button type="submit" class="shrink-0 rounded-lg bg-ink px-5 py-3 text-sm font-medium text-canvas">Search</button>
+    </form>
+  </div>
+
+  <div>
+    <p class="text-xs uppercase tracking-[0.2em] text-muted">Tags list</p>
+    <ul class="mt-4 flex flex-wrap gap-2">
+      {tags.map((t) => (
+        <li>
+          <a
+            href={`/journal?tag=${encodeURIComponent(t.name)}`}
+            data-tag-link={t.name}
+            class:list={[
+              'journal-tag inline-block rounded-full border px-3.5 py-1.5 text-sm transition-colors',
+              activeTag === t.name ? 'border-ink bg-ink text-canvas' : 'border-hairline bg-surface hover:border-ink',
+            ]}
+          >
+            {t.name} <span class="text-muted">{t.count}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    {activeTag && (
+      <p class="mt-4 text-sm text-muted">
+        Showing articles tagged "{activeTag}".
+        <a href="/journal" class="ml-1 font-medium text-ink underline underline-offset-4">Clear filter</a>
+      </p>
+    )}
+  </div>
+</aside>

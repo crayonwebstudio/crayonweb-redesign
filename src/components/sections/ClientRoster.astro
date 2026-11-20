@@ -1,10 +1,5 @@
 ---
 const regions = ['Germany', 'Austria', 'Switzerland', 'Netherlands', 'USA', 'India'];
-const testimonials = [
-  { quote: 'Crayonweb rebuilt our multilingual site on TYPO3 and our editors finally run it without us. Clear process, calm delivery, no drama.', name: 'Marketing Lead', org: 'Novanox, Germany' },
-  { quote: 'They think like partners, not suppliers. The portfolio they built for me feels like my work, only better presented.', name: 'Arnold Poeppl', org: 'Austria' },
-  { quote: 'From web platform to mobile app, one team carried the whole booking journey. Our operations are faster and our customers notice.', name: 'Operations Head', org: 'Rashmicabs, India' },
-];
 ---
 
 <section class="border-y border-hairline bg-surface/60">
@@ -16,38 +11,5 @@ const testimonials = [
         <div class="bg-canvas px-6 py-8 font-display text-xl font-semibold md:px-8 md:text-2xl">{r}</div>
       ))}
     </div>
-
-    <div class="mt-16" id="testimonial-block">
-      <blockquote class="max-w-3xl font-display text-2xl font-medium leading-snug tracking-tight md:text-3xl" id="testimonial-quote">&ldquo;{testimonials[0].quote}&rdquo;</blockquote>
-      <p class="mt-5 text-sm text-muted"><span id="testimonial-name">{testimonials[0].name}</span>, <span id="testimonial-org">{testimonials[0].org}</span></p>
-      <div class="mt-6 flex gap-2" role="tablist" aria-label="Testimonials">
-        {testimonials.map((t, i) => (
-          <button type="button" class="testimonial-dot h-2.5 w-10 rounded-full transition-colors" data-index={i} aria-label={`Testimonial ${i + 1}`} style={i === 0 ? 'background:#0A0A0A' : 'background:#E5E5E5'}></button>
-        ))}
-      </div>
-    </div>
   </div>
 </section>
-<script define:vars={{ testimonials }}>
-  const quote = document.getElementById('testimonial-quote');
-  const tName = document.getElementById('testimonial-name');
-  const tOrg = document.getElementById('testimonial-org');
-  const dots = Array.from(document.querySelectorAll('.testimonial-dot'));
-  let current = 0;
-  let timer = 0;
-  function show(i) {
-    current = i;
-    const t = testimonials[i];
-    if (quote) { quote.style.opacity = '0'; quote.style.transition = 'opacity 0.35s ease'; }
-    setTimeout(() => {
-      if (quote) quote.textContent = '\u201C' + t.quote + '\u201D';
-      if (tName) tName.textContent = t.name;
-      if (tOrg) tOrg.textContent = t.org;
-      if (quote) quote.style.opacity = '1';
-    }, 350);
-    dots.forEach((d, j) => { d.style.background = j === i ? '#0A0A0A' : '#E5E5E5'; });
-  }
-  function start() { timer = window.setInterval(() => show((current + 1) % testimonials.length), 6000); }
-  dots.forEach((d) => d.addEventListener('click', () => { clearInterval(timer); show(Number(d.dataset.index)); start(); }));
-  start();
-</script>

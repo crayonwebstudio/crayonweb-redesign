@@ -10,7 +10,7 @@ order: 1
 challenge: "Novanox served customers in four languages from a fragmented site that editors could not update without developer help. Content drifted between locales, consent handling was inconsistent, and page speed suffered on mobile."
 solution: "We rebuilt the platform on TYPO3 with a shared content model, one source of truth per page, and locale fallbacks that keep every language in sync. A strict consent layer, server side rendering, and a component library gave editors full control without touching code."
 techStack: ["TYPO3 v13", "Fluid", "Tailwind CSS", "GDPR Consent", "Vite"]
-category: "Web/TYPO3"
+category: "TYPO3"
 cover: "linear-gradient(135deg, #0A0A0A 0%, #2b2b2b 55%, #4a4a4a 100%)"
 hoverImage: "/work/novanox.jpg"
 initials: "Nx"

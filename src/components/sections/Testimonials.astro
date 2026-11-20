@@ -1,0 +1,96 @@
+---
+const testimonials = [
+  {
+    quote: 'Milan converted our PDF design into a clean, responsive TYPO3 shop theme. Great work, timely delivery, and professional communication. Just a bit more documentation would make it perfect. Recommended!',
+    project: 'TYPO3 from PDF and Template for shop software',
+    name: 'Jonas Müller',
+    org: 'Germany',
+    stars: 4,
+  },
+  {
+    quote: 'Milan successfully copied our TYPO3 MySQL database to a new domain without issues. The migration was smooth, communication was clear, and everything worked as expected. A bit more documentation would have been helpful, but overall a great job!',
+    project: 'Migration, Copy MySQL DB with TYPO3 to new domain',
+    name: 'Markus Huber',
+    org: 'Austria',
+    stars: 5,
+  },
+  {
+    quote: 'Crayonweb converted our InDesign design into a functional TYPO3 website with pixel perfect detail and great care. The result matched the design perfectly, worked smoothly, and was delivered on time. Very professional work!',
+    project: 'TYPO3 Website',
+    name: 'Lukas Meier',
+    org: 'Switzerland',
+    stars: 5,
+  },
+  {
+    quote: 'Crayonweb developed a TYPO3 donation module for our website that works seamlessly and is easy to manage. The module integrates smoothly, offers flexibility, and has made handling donations much simpler. Communication was clear, delivery was timely, and he offered a very fair price considering it was for a non-profit organization. Highly recommended!',
+    project: 'Typo3 Donation Module',
+    name: 'Jeroen de Vries',
+    org: 'Netherlands',
+    stars: 5,
+  },
+  {
+    quote: 'This developer could implement my TYPO3 web application as expected. Very good communication skills. He gave me the best advises on how to handle other issues in TYPO3. Thanks for the support. I would always recommend.',
+    project: 'TYPO3 Development',
+    name: 'iMbu On-Demand IT Solutions GmbH',
+    org: '',
+    stars: 5,
+  },
+  {
+    quote: 'Milan Pandya is a very qualified developer, look forward to work together on future products.',
+    project: 'Magento 2, Need to add Custom Payment Gateway',
+    name: 'Sebastian Perez',
+    org: 'Argentina',
+    stars: 5,
+  },
+  {
+    quote: 'Crayonweb did an outstanding job creating our startup\u2019s social graphics and branding in Figma. The designs were modern, consistent, and perfectly aligned with our vision. The branding package has given us a professional identity across platforms, and the process was smooth from start to finish. Highly recommended for any startup looking to stand out!',
+    project: 'Figma for Startup, Social graphics and branding',
+    name: 'CoFoundersLab',
+    org: '',
+    stars: 5,
+  },
+];
+---
+
+<section class="border-y border-hairline bg-surface/60">
+  <div class="mx-auto max-w-[1440px] px-5 py-24 md:px-10 md:py-32">
+    <p class="text-xs uppercase tracking-[0.2em] text-muted">Client feedback that speaks</p>
+    <h2 class="mt-4 max-w-2xl font-display text-3xl font-semibold leading-tight tracking-tight md:text-5xl">What our clients say about our digital solutions.</h2>
+
+    <div class="mt-14" id="testimonial-block">
+      <p class="text-sm font-medium tracking-wide text-muted"><span id="testimonial-stars" aria-label={`${testimonials[0].stars} out of 5 stars`}>{'★'.repeat(testimonials[0].stars)}{'☆'.repeat(5 - testimonials[0].stars)}</span> <span id="testimonial-project">{testimonials[0].project}</span></p>
+      <blockquote class="mt-6 max-w-3xl font-display text-2xl font-medium leading-snug tracking-tight md:text-3xl" id="testimonial-quote">&ldquo;{testimonials[0].quote}&rdquo;</blockquote>
+      <p class="mt-5 text-sm text-muted"><span id="testimonial-name">{testimonials[0].name}{testimonials[0].org ? `, ${testimonials[0].org}` : ''}</span></p>
+      <div class="mt-6 flex gap-2" role="tablist" aria-label="Testimonials">
+        {testimonials.map((t, i) => (
+          <button type="button" class="testimonial-dot h-2.5 w-10 rounded-full transition-colors" data-index={i} aria-label={`Testimonial ${i + 1}: ${t.name}`} style={i === 0 ? 'background:#0A0A0A' : 'background:#E5E5E5'}></button>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+<script define:vars={{ testimonials }}>
+  const quote = document.getElementById('testimonial-quote');
+  const tName = document.getElementById('testimonial-name');
+  const tProject = document.getElementById('testimonial-project');
+  const tStars = document.getElementById('testimonial-stars');
+  const dots = Array.from(document.querySelectorAll('.testimonial-dot'));
+  let current = 0;
+  let timer = 0;
+  function show(i) {
+    current = i;
+    const t = testimonials[i];
+    if (quote) { quote.style.opacity = '0'; quote.style.transition = 'opacity 0.35s ease'; }
+    setTimeout(() => {
+      if (quote) quote.textContent = '\u201C' + t.quote + '\u201D';
+      if (tName) tName.textContent = t.org ? t.name + ', ' + t.org : t.name;
+      if (tProject) tProject.textContent = t.project;
+      if (tStars) { tStars.textContent = '\u2605'.repeat(t.stars) + '\u2606'.repeat(5 - t.stars); tStars.setAttribute('aria-label', t.stars + ' out of 5 stars'); }
+      if (quote) quote.style.opacity = '1';
+    }, 350);
+    dots.forEach((d, j) => { d.style.background = j === i ? '#0A0A0A' : '#E5E5E5'; });
+  }
+  function start() { timer = window.setInterval(() => show((current + 1) % testimonials.length), 6000); }
+  dots.forEach((d) => d.addEventListener('click', () => { clearInterval(timer); show(Number(d.dataset.index)); start(); }));
+  start();
+</script>

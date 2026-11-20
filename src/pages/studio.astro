@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import StudioPillars from '../components/sections/StudioPillars.astro';
+import Testimonials from '../components/sections/Testimonials.astro';
 const principles = [
   { n: '01', title: 'Innovate Fearlessly', text: 'We try the new tool, the new pattern, the new approach, on our own time first, so clients get proven ideas, not experiments.' },
   { n: '02', title: 'Empower Businesses', text: 'Technology should give a business leverage, not dependency. We build systems clients can run themselves.' },
@@ -19,9 +20,70 @@ const principles = [
       <p class="text-lg leading-relaxed text-muted">Our work spans brand and UI, TYPO3 and headless web, e-commerce and ERP, and mobile and AI. What ties it together is a belief that good software is calm, fast, and honest, and that a studio earns trust by shipping, then staying to care for what it shipped.</p>
     </div>
     <div class="mt-14 grid gap-px overflow-hidden rounded-lg border border-hairline bg-hairline md:grid-cols-3">
-      <div class="bg-canvas p-8"><p class="font-display text-4xl font-semibold">20+</p><p class="mt-2 text-sm text-muted">Projects shipped across web, commerce, and ERP</p></div>
-      <div class="bg-canvas p-8"><p class="font-display text-4xl font-semibold">6</p><p class="mt-2 text-sm text-muted">Countries served, from DACH to India</p></div>
-      <div class="bg-canvas p-8"><p class="font-display text-4xl font-semibold">360</p><p class="mt-2 text-sm text-muted">Annual care: support, updates, and improvement</p></div>
+      <div class="bg-canvas p-8"><p class="font-display text-4xl font-semibold">250+</p><p class="mt-2 text-sm text-muted">Projects Delivered, completed with excellence worldwide</p></div>
+      <div class="bg-canvas p-8"><p class="font-display text-4xl font-semibold">50+</p><p class="mt-2 text-sm text-muted">Active Clients, continuing partnerships and ongoing support</p></div>
+      <div class="bg-canvas p-8"><p class="font-display text-4xl font-semibold">13+</p><p class="mt-2 text-sm text-muted">Years of Experience, building digital success stories</p></div>
+    </div>
+
+    <div class="mt-14">
+      <p class="text-xs uppercase tracking-[0.2em] text-muted">What we are good at</p>
+      <div class="mt-6 space-y-6">
+        {[
+          { label: 'UX/UI Design', pct: 95 },
+          { label: 'Web Design', pct: 95 },
+          { label: 'Web Development', pct: 95 },
+          { label: 'Branding Design', pct: 85 },
+        ].map((s) => (
+          <div>
+            <div class="flex items-baseline justify-between gap-4">
+              <p class="text-sm font-medium">{s.label}</p>
+              <p class="font-display text-sm font-semibold">{s.pct}%</p>
+            </div>
+            <div class="mt-2 h-2 overflow-hidden rounded-full bg-surface">
+              <div class="h-full rounded-full bg-ink" style={`width: ${s.pct}%`}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-hairline bg-surface/60">
+    <div class="mx-auto max-w-[1440px] px-5 py-24 md:px-10 md:py-32">
+      <p class="text-xs uppercase tracking-[0.2em] text-muted">TYPO3 support and maintenance</p>
+      <h2 class="mt-4 max-w-3xl font-display text-3xl font-semibold leading-tight tracking-tight md:text-5xl">Optimize your working process for maximum speed and efficiency.</h2>
+      <p class="mt-6 max-w-3xl text-lg leading-relaxed text-muted">Optimize your TYPO3 working process for maximum speed and efficiency with our expert support and maintenance services. At Crayonweb, we help businesses streamline content management, improve website performance, and reduce technical bottlenecks. From TYPO3 upgrades and security updates to custom extensions and workflow automation, our solutions are designed to save time, enhance productivity, and keep your website running seamlessly.</p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-[1440px] px-5 py-24 md:px-10 md:py-32">
+    <p class="text-xs uppercase tracking-[0.2em] text-muted">We provide service to support company</p>
+    <h2 class="mt-4 max-w-3xl font-display text-3xl font-semibold leading-tight tracking-tight md:text-5xl">Comprehensive TYPO3 development, support, and ongoing maintenance solutions designed to empower businesses and ensure smooth website performance.</h2>
+    <div class="mt-12 grid gap-px overflow-hidden rounded-lg border border-hairline bg-hairline md:grid-cols-2">
+      {[
+        { n: '01', title: 'Web Design', tagline: 'Professional web design services', items: ['Custom Website Design', 'Website Redesign and Refresh', 'Responsive Design'], href: '/service/web-design' },
+        { n: '02', title: 'Web Development', tagline: 'Bring your digital vision to life', items: ['Custom Web Development', 'E-Commerce Development', 'Custom Web Application'], href: '/service/web-development' },
+        { n: '03', title: 'Branding and Identity Design', tagline: 'It is about creating a unique story', items: ['Brand Strategy', 'Visual Identity', 'Rebranding'], href: '/service/branding-and-identity' },
+        { n: '04', title: 'Digital Marketing and SEO', tagline: 'Accelerate your business growth', items: ['Custom SEO Strategy', 'Content Writing', 'App Store SEO'], href: '/service/smart-growth-marketing' },
+        { n: '05', title: 'CMS Solution', tagline: 'Ideal CMS solution for your business', items: ['Multi-language CMS', 'Headless CMS Solutions', 'CMS Migration'], href: '/service/cms-solution' },
+        { n: '06', title: 'Mobile Application', tagline: 'Comprehensive mobile app development', items: ['Native Mobile App', 'Hybrid App', 'Cross-Platform App'], href: '/service/mobile-application' },
+        { n: '07', title: 'Creative Visual Production', tagline: 'Visuals that make a lasting impression', items: ['Brand Profile Videos', 'Post-Production Editing', 'Motion Graphics'], href: '/service/media-creation-services' },
+        { n: '08', title: 'AI-Powered Business Solutions', tagline: 'We specialize in deploying AI tools', items: ['AI Strategy Consulting', 'Generative AI', 'AI-Powered Video Production'], href: '/service/ai-powered-business-solutions' },
+      ].map((s) => (
+        <a href={s.href} class="group block bg-canvas p-8 transition-colors hover:bg-surface">
+          <div class="flex items-baseline justify-between gap-4">
+            <span class="font-display text-sm font-semibold text-muted">{s.n}</span>
+            <span class="text-muted transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" aria-hidden="true">&nearr;</span>
+          </div>
+          <h3 class="mt-6 font-display text-2xl font-semibold">{s.title}</h3>
+          <p class="mt-2 text-muted">{s.tagline}</p>
+          <ul class="mt-4 flex flex-wrap gap-2">
+            {s.items.map((item) => (
+              <li class="rounded-full border border-hairline bg-surface px-3.5 py-1.5 text-sm">{item}</li>
+            ))}
+          </ul>
+        </a>
+      ))}
     </div>
   </section>
 
@@ -40,6 +102,8 @@ const principles = [
   </section>
 
   <StudioPillars />
+
+  <Testimonials />
 
   <section class="mx-auto max-w-[1440px] px-5 pb-24 md:px-10">
     <h2 class="font-display text-3xl font-semibold tracking-tight md:text-4xl">Team and culture</h2>

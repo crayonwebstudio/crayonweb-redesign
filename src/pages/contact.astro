@@ -15,12 +15,20 @@ const timelines = ['ASAP', '1 to 2 months', '3 to 6 months', 'Flexible'];
       <form id="contact-form" class="lg:col-span-7" novalidate>
         <div class="grid gap-6 sm:grid-cols-2">
           <div>
-            <label for="f-name" class="mb-2 block text-sm font-medium">Name</label>
-            <input id="f-name" name="name" required type="text" autocomplete="name" placeholder="Your name" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+            <label for="f-first" class="mb-2 block text-sm font-medium">Your first name</label>
+            <input id="f-first" name="firstName" required type="text" autocomplete="given-name" placeholder="Your first name" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
           </div>
           <div>
-            <label for="f-email" class="mb-2 block text-sm font-medium">Email</label>
+            <label for="f-last" class="mb-2 block text-sm font-medium">Your last name</label>
+            <input id="f-last" name="lastName" required type="text" autocomplete="family-name" placeholder="Your last name" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+          </div>
+          <div>
+            <label for="f-email" class="mb-2 block text-sm font-medium">Your email address</label>
             <input id="f-email" name="email" required type="email" autocomplete="email" placeholder="you@company.com" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+          </div>
+          <div>
+            <label for="f-phone" class="mb-2 block text-sm font-medium">Your phone number</label>
+            <input id="f-phone" name="phone" required type="tel" autocomplete="tel" placeholder="+91 00000 00000" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
           </div>
         </div>
 
@@ -56,7 +64,7 @@ const timelines = ['ASAP', '1 to 2 months', '3 to 6 months', 'Flexible'];
           <textarea id="f-brief" name="brief" required rows="6" placeholder="What are you building, for whom, and by when?" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink"></textarea>
         </div>
 
-        <p id="form-error" class="mt-4 hidden text-sm text-red-700">Please add your name, a valid email, and a short brief.</p>
+        <p id="form-error" class="mt-4 hidden text-sm text-red-700">Please add your first and last name, a valid email, your phone number, and a short brief.</p>
         <button type="submit" class="mt-8 rounded-full bg-ink px-8 py-3.5 text-sm font-medium text-canvas transition-transform hover:scale-[1.03]">Send inquiry</button>
         <p class="mt-4 text-sm text-muted">This form does not submit anywhere yet. Your details stay in this browser until the inquiry backend is connected.</p>
       </form>
@@ -96,15 +104,17 @@ const timelines = ['ASAP', '1 to 2 months', '3 to 6 months', 'Flexible'];
   form?.addEventListener('submit', (e) => {
     e.preventDefault();
     const data = new FormData(form);
-    const name = String(data.get('name') || '').trim();
+    const firstName = String(data.get('firstName') || '').trim();
+    const lastName = String(data.get('lastName') || '').trim();
     const email = String(data.get('email') || '').trim();
+    const phone = String(data.get('phone') || '').trim();
     const brief = String(data.get('brief') || '').trim();
-    const valid = name.length > 1 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && brief.length > 10;
+    const valid = firstName.length > 1 && lastName.length > 1 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && phone.length > 5 && brief.length > 10;
     if (!valid) { error?.classList.remove('hidden'); return; }
     error?.classList.add('hidden');
     const scopes = data.getAll('scope').join(', ');
-    const subject = encodeURIComponent(`Project inquiry from ${name}`);
-    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nScope: ${scopes}\nBudget: ${data.get('budget')}\nTimeline: ${data.get('timeline')}\n\nBrief:\n${brief}`);
+    const subject = encodeURIComponent(`Project inquiry from ${firstName} ${lastName}`);
+    const body = encodeURIComponent(`First name: ${firstName}\nLast name: ${lastName}\nEmail: ${email}\nPhone: ${phone}\nScope: ${scopes}\nBudget: ${data.get('budget')}\nTimeline: ${data.get('timeline')}\n\nBrief:\n${brief}`);
     if (mailto) mailto.href = `mailto:info@crayonwebstudio.com?subject=${subject}&body=${body}`;
     form.classList.add('hidden');
     success?.classList.remove('hidden');

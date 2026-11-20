@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import JournalSidebar from '../../components/journal/JournalSidebar.astro';
 import { getCollection, render } from 'astro:content';
 export async function getStaticPaths() {
   const posts = await getCollection('journal');
@@ -11,24 +12,31 @@ const others = all.filter((p) => p.id !== post.id).sort((a, b) => b.data.publish
 ---
 
 <BaseLayout title={`${post.data.title}: Crayonweb Studio Journal`} description={post.data.description}>
-  <article class="mx-auto max-w-3xl px-5 pb-24 pt-12 md:pt-16">
-    <p class="text-xs uppercase tracking-[0.2em] text-muted">Journal</p>
-    <h1 class="mt-4 font-display text-[clamp(2rem,5vw,3.4rem)] font-semibold leading-[1.08] tracking-tight">{post.data.title}</h1>
-    <p class="mt-6 text-lg leading-relaxed text-muted">{post.data.description}</p>
-    <p class="mt-6 border-b border-hairline pb-8 text-sm text-muted">
-      {post.data.publishDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} &middot; {post.data.readingTime} min read &middot; {post.data.tags.join(', ')}
-    </p>
-    <div class="prose-journal mt-10">
-      <Content />
-    </div>
-    <div class="mt-16 border-t border-hairline pt-10">
-      <p class="text-xs uppercase tracking-[0.2em] text-muted">More from the Journal</p>
-      <div class="mt-6 space-y-4">
-        {others.map((o) => (
-          <a href={`/journal/${o.id.replace(/\.md$/, '')}`} class="block font-display text-xl font-semibold hover:underline">{o.data.title}</a>
-        ))}
+  <div class="mx-auto max-w-[1440px] px-5 pb-24 pt-12 md:px-10 md:pt-16">
+    <div class="grid gap-14 lg:grid-cols-12">
+      <article class="lg:col-span-8">
+        <p class="text-xs uppercase tracking-[0.2em] text-muted">Journal</p>
+        <h1 class="mt-4 font-display text-[clamp(2rem,5vw,3.4rem)] font-semibold leading-[1.08] tracking-tight">{post.data.title}</h1>
+        <p class="mt-6 text-lg leading-relaxed text-muted">{post.data.description}</p>
+        <p class="mt-6 border-b border-hairline pb-8 text-sm text-muted">
+          by {post.data.author}{post.data.category ? `, ${post.data.category}` : ''} &middot; {post.data.publishDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} &middot; {post.data.readingTime} min read &middot; {post.data.tags.join(', ')}
+        </p>
+        <div class="prose-journal mt-10">
+          <Content />
+        </div>
+        <div class="mt-16 border-t border-hairline pt-10">
+          <p class="text-xs uppercase tracking-[0.2em] text-muted">More from the Journal</p>
+          <div class="mt-6 space-y-4">
+            {others.map((o) => (
+              <a href={`/journal/${o.id.replace(/\.md$/, '')}`} class="block font-display text-xl font-semibold hover:underline">{o.data.title}</a>
+            ))}
+          </div>
+          <a href="/journal" class="mt-8 inline-block text-sm font-medium underline underline-offset-4">All articles</a>
+        </div>
+      </article>
+      <div class="lg:col-span-4">
+        <JournalSidebar />
       </div>
-      <a href="/journal" class="mt-8 inline-block text-sm font-medium underline underline-offset-4">All articles</a>
     </div>
-  </article>
+  </div>
 </BaseLayout>

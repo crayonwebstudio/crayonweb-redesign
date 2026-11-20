@@ -73,6 +73,30 @@ const { service, next } = Astro.props;
       </section>
     )}
 
+    {service.tags && (
+      <section class="mt-14 max-w-3xl">
+        <h2 class="font-display text-2xl font-semibold md:text-3xl">Tag Here</h2>
+        <p class="mt-6 leading-relaxed text-muted">{service.tags.join(', ')}</p>
+      </section>
+    )}
+
+    {service.faqs && (
+      <section class="mt-14 max-w-3xl">
+        <h2 class="font-display text-2xl font-semibold md:text-3xl">Frequently asked questions</h2>
+        <div class="mt-8">
+          {service.faqs.map((f, i) => (
+            <details class="group border-t border-hairline py-6 last:border-b" open={i === 0}>
+              <summary class="flex cursor-pointer list-none items-baseline justify-between gap-4">
+                <span class="font-display text-xl font-semibold">{f.q}</span>
+                <span class="shrink-0 font-display text-2xl text-muted transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+              </summary>
+              <p class="mt-4 leading-relaxed text-muted">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+    )}
+
     <div class="mt-16 flex flex-wrap gap-3">
       <a href="/work" class="rounded-full bg-ink px-6 py-3 text-sm font-medium text-canvas">See related work</a>
       <a href="/contact" class="rounded-full border border-ink px-6 py-3 text-sm font-medium">Start a project</a>

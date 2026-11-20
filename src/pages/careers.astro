@@ -287,6 +287,48 @@ const roles: Role[] = [
                 <a href="/contact" class="rounded-full bg-ink px-6 py-3 text-sm font-medium text-canvas">Apply for this role</a>
                 <a href="mailto:hr@crayonwebstudio.com?subject=Application%20for%20{encodeURIComponent(role.title)}" class="text-sm font-medium underline underline-offset-4">Email your CV to hr@crayonwebstudio.com</a>
               </div>
+
+              <form class="apply-form mt-12 rounded-xl border border-hairline bg-surface p-6 md:p-8" data-role={role.title} novalidate>
+                <h3 class="font-display text-xl font-semibold">Apply position</h3>
+                <p class="mt-2 text-sm text-muted">Send your application for {role.title}. This form does not submit anywhere yet. Your details stay in this browser until the application backend is connected.</p>
+                <div class="mt-6 grid gap-6 sm:grid-cols-2">
+                  <div>
+                    <label for={`apply-first-${i}`} class="mb-2 block text-sm font-medium">Your first name</label>
+                    <input id={`apply-first-${i}`} name="firstName" required type="text" autocomplete="given-name" placeholder="Your first name" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+                  </div>
+                  <div>
+                    <label for={`apply-last-${i}`} class="mb-2 block text-sm font-medium">Your last name</label>
+                    <input id={`apply-last-${i}`} name="lastName" required type="text" autocomplete="family-name" placeholder="Your last name" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+                  </div>
+                  <div>
+                    <label for={`apply-email-${i}`} class="mb-2 block text-sm font-medium">Your email address</label>
+                    <input id={`apply-email-${i}`} name="email" required type="email" autocomplete="email" placeholder="you@example.com" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+                  </div>
+                  <div>
+                    <label for={`apply-phone-${i}`} class="mb-2 block text-sm font-medium">Your phone number</label>
+                    <input id={`apply-phone-${i}`} name="phone" required type="tel" autocomplete="tel" placeholder="+91 00000 00000" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+                  </div>
+                  <div>
+                    <label for={`apply-exp-${i}`} class="mb-2 block text-sm font-medium">Working experience</label>
+                    <input id={`apply-exp-${i}`} name="experience" required type="text" placeholder="For example, 2 years in UI/UX design" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+                  </div>
+                  <div>
+                    <label for={`apply-cv-${i}`} class="mb-2 block text-sm font-medium">Upload your CV</label>
+                    <input id={`apply-cv-${i}`} name="cv" type="file" accept=".pdf,.doc,.docx" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+                  </div>
+                </div>
+                <div class="mt-6">
+                  <label for={`apply-message-${i}`} class="mb-2 block text-sm font-medium">Your message</label>
+                  <textarea id={`apply-message-${i}`} name="message" rows="4" placeholder="Why this role, in a few lines" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink"></textarea>
+                </div>
+                <p class="apply-error mt-4 hidden text-sm text-red-700">Please add your first and last name, a valid email, your phone number, and your working experience.</p>
+                <button type="submit" class="mt-6 rounded-full bg-ink px-8 py-3.5 text-sm font-medium text-canvas transition-transform hover:scale-[1.03]">Submit</button>
+                <div class="apply-success mt-6 hidden rounded-lg border border-hairline bg-canvas p-6">
+                  <p class="font-display text-lg font-semibold">Thank you. Your application is ready.</p>
+                  <p class="mt-2 text-sm leading-relaxed text-muted">This is a local preview, so nothing was sent. Email your CV to hr@crayonwebstudio.com to complete your application for {role.title}.</p>
+                  <a href={`mailto:hr@crayonwebstudio.com?subject=Application%20for%20${encodeURIComponent(role.title)}`} class="mt-4 inline-block rounded-full bg-ink px-6 py-3 text-sm font-medium text-canvas">Email your CV to hr@crayonwebstudio.com</a>
+                </div>
+              </form>
             </div>
           </details>
         ))}
@@ -294,3 +336,22 @@ const roles: Role[] = [
     </section>
   </section>
 </BaseLayout>
+<script>
+  document.querySelectorAll('.apply-form').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const first = String(data.get('firstName') || '').trim();
+      const last = String(data.get('lastName') || '').trim();
+      const email = String(data.get('email') || '').trim();
+      const phone = String(data.get('phone') || '').trim();
+      const exp = String(data.get('experience') || '').trim();
+      const valid = first.length > 1 && last.length > 1 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && phone.length > 5 && exp.length > 0;
+      const err = form.querySelector('.apply-error');
+      if (!valid) { err?.classList.remove('hidden'); return; }
+      err?.classList.add('hidden');
+      form.querySelector('.apply-success')?.classList.remove('hidden');
+      form.querySelector('button[type="submit"]')?.classList.add('hidden');
+    });
+  });
+</script>

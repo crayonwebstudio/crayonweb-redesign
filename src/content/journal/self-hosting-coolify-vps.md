@@ -1,53 +1,253 @@
 ---
-title: "Self-Hosting with Coolify on a VPS"
-publishDate: 2026-04-10
-description: "How we run client sites on a VPS with Coolify: what it replaces, what it costs, and where it breaks."
-tags: ["Coolify", "Self-Hosting", "DevOps"]
-readingTime: 9
+title: "Complete Step-by-Step Guide to Installing and Setting Up Coolify on a VPS"
+publishDate: 2025-12-07
+description: "Self-hosting modern applications often means dealing with Docker, servers, SSL, deployments, and monitoring things that can quickly become overwhelming. Coolify simplifies this by acting as a self-hosted Platform-as-a-Service (PaaS), giving you the convenience of platforms like Heroku or Vercel while keeping full control of your infrastructure and costs."
+tags: ["Docker Deployment", "Coolify", "Coolify Installation Guide", "Coolify on VPS", "Coolify Setup", "Self-Hosted PaaS", "Heroku Alternative", "Vercel Alternative"]
+readingTime: 8
+author: "Milan Pandya"
+category: "DevOps"
 ---
 
-Coolify is an open source, self hostable alternative to platforms like Heroku and Vercel. You install it on your own VPS, connect your Git repositories, and it handles builds, deployments, domains, and certificates. For a studio that runs many client sites, it is a practical middle ground between shared hosting and a full Kubernetes setup.
+Self-hosting modern applications often means dealing with Docker, servers, SSL, deployments, and monitoring things that can quickly become overwhelming. Coolify simplifies this by acting as a self-hosted Platform-as-a-Service (PaaS), giving you the convenience of platforms like Heroku or Vercel while keeping full control of your infrastructure and costs.
 
-## Why self-host at all
+This guide walks you through installing and configuring Coolify on a VPS, securing it for production use, and deploying your first application with confidence. The instructions are written for beginners as well as developers planning real-world deployments, and are derived from the uploaded installation document.
 
-Managed platforms are convenient, but their costs scale with every site, and their limits shape your architecture. A VPS with Coolify gives you fixed costs, full control over the stack, and no per seat pricing. You choose the server size, you decide which services run where, and you keep your data on infrastructure you control.
+## What Is Coolify and Why Use It?
 
-That control comes with responsibility. You own updates, backups, and monitoring. Coolify reduces that burden, but it does not remove it. Self-hosting is the right choice when you have the discipline to maintain it, and the wrong choice when you want to forget infrastructure exists.
+Coolify is an open-source deployment platform that runs on your own server. It uses Docker internally to build, run, and manage applications, databases, and services.
 
-## Choosing the server
+Why developers choose Coolify:
 
-Start with a VPS that has room to grow. A small site needs little, but Coolify itself, databases, and build processes all consume memory. We recommend at least 4 GB of RAM for a production server that hosts several applications, and more if you run databases on the same machine. CPU matters less than memory for most studio sites, but builds are CPU hungry, so a server that is too small will queue deploys.
+- Full control over infrastructure and data
+- No vendor lock-in or per-app pricing
+- Supports many stacks (Node.js, PHP, Python, static sites, Docker, Docker Compose)
+- Built-in SSL, backups, and monitoring
+- Ideal for agencies, startups, and self-hosters
 
-Use a reputable provider with snapshots and a firewall. Keep the operating system minimal and updated. Coolify installs Docker and manages containers for you, but the host still needs basic hardening: SSH keys only, no password login, automatic security updates, and a firewall that exposes only the ports you need.
+## Prerequisites: Server Requirements
 
-## Installing Coolify
+Before starting, make sure your VPS meets these minimum requirements:
 
-Installation is a single script that sets up Docker and the Coolify dashboard. Once it is running, you reach it on its own domain with a login you control. From there, you add servers, connect GitHub or GitLab, and create projects. Each project holds resources: applications, databases, and services.
+Minimum (for testing or light usage):
 
-Coolify supports Docker Compose, Dockerfiles, and Nixpacks builds. For Astro, Next.js, and Laravel projects, a Dockerfile gives the most control. Keep the Dockerfile in the repository, next to the code, so the build is versioned with the application. Coolify reads it on every deploy and builds the same image every time.
+- 2 CPU cores
+- 2 GB RAM
+- 30 GB storage
 
-## Deployments that behave
+Recommended (production or multiple apps):
 
-Connect each application to its Git branch and let Coolify deploy on push, or deploy manually when you prefer control. Either way, use preview deployments for pull requests when the project supports them, so changes can be reviewed on a real URL before they reach production.
+- 4 CPU cores
+- 8 GB RAM
+- 100-150 GB storage
 
-Environment variables live in Coolify, not in the repository. Set them per application, mark secrets as sensitive, and never commit a .env file. Coolify restarts the application when variables change, which is convenient and occasionally surprising, so change variables during a maintenance window when the site is busy.
+### Supported Operating Systems
 
-Domains and certificates are handled by the built in reverse proxy. Point DNS at the server, add the domain in Coolify, and certificates are issued automatically. Check the certificate after the first deploy, and set up monitoring so an expired certificate is caught before a visitor sees it.
+Coolify supports many Linux distributions, but Ubuntu LTS (22.04 or 24.04) is strongly recommended for the smoothest experience and full automation.
 
-## Databases and backups
+### Other Requirements
 
-Coolify can run PostgreSQL, MySQL, MariaDB, and Redis as managed resources on the same server. That is convenient, and it is also a single point of failure. For client work, separate the backup strategy from the server itself. Schedule automatic backups to external storage, test restores regularly, and document the restore procedure. A backup you have never restored is a hope, not a plan.
+- Fresh VPS (no existing Docker setups)
+- Root or sudo access
+- SSH access to the server
 
-Keep databases on their own volumes, and do not store uploads inside the application container. Use persistent volumes or object storage for user files, so a redeploy never deletes client data. This is the single most common self-hosting mistake, and it is entirely avoidable.
+## Step 1: Connect to Your VPS and Update the System
 
-## Monitoring and maintenance
+Log in to your server using SSH:
 
-Coolify shows container status and logs, but you still need alerting. Monitor disk space, memory, and uptime from outside the server, so a failure of the server itself still reaches you. Set up log rotation, because Docker logs grow without limit, and a full disk is a quiet way to take down every site at once.
+```bash
+ssh root@YOUR_SERVER_IP
+```
 
-Update Coolify itself on a schedule, and update the host operating system separately. Read the release notes before a major Coolify update, and snapshot the server first. A five minute snapshot is cheap insurance against a bad upgrade.
+Update system packages to avoid dependency issues:
 
-## When not to self-host
+```bash
+apt update && apt upgrade -y
+```
 
-Self-hosting is not for every project. If a client needs global edge delivery, compliance certifications, or a team with no one to own the server, a managed platform is the better choice. Be honest about that in the proposal. The goal is the right home for the site, not the cheapest one.
+Install required utilities that Coolify relies on:
 
-For a studio with the skills to maintain it, Coolify on a VPS is a strong default. Fixed costs, real control, and a deployment workflow the whole team can use. Treat the server as a product, maintain it on a schedule, and it will quietly carry your client work for years.
+```bash
+apt install curl wget git jq openssl -y
+```
+
+## Step 2: Install Coolify Using the Official Script
+
+Coolify provides a one-command installation script that automatically installs Docker, configures services, and sets up everything needed.
+
+Run the installer:
+
+```bash
+curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash
+```
+
+Optional: Pre-configure Admin Credentials
+
+If you prefer not to create the admin account manually later, you can define credentials during installation:
+
+```bash
+env ROOT_USERNAME=admin \
+ROOT_USER_EMAIL=admin@example.com \
+ROOT_USER_PASSWORD=choose-a-strong-password \
+bash -c 'curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash'
+```
+
+### What the Installer Does
+
+- Installs Docker and Docker Compose
+- Sets up directories under /data/coolify
+- Configures Docker networking
+- Generates SSH keys
+- Starts Coolify as a system service
+
+The installation usually completes in a few minutes.
+
+## Step 3: Access Coolify and Create the Admin Account
+
+Once installation finishes, you will see a URL like:
+
+```text
+http://YOUR_SERVER_IP:8000
+```
+
+Open it immediately in your browser.
+
+Important: The first person to register becomes the admin. Do not leave this page exposed.
+
+Create your admin account using:
+
+- Username
+- Valid email address
+- Strong password
+
+After login, you will see the onboarding wizard.
+
+## Step 4: Configure Server and Proxy Settings
+
+During onboarding:
+
+- Choose localhost as the server destination (Coolify runs on the same VPS)
+- Enable the reverse proxy (Traefik or Caddy)
+
+The proxy handles:
+
+- HTTP to HTTPS redirection
+- SSL certificates via Let's Encrypt
+- Domain-based routing for your apps
+
+## Step 5: Connect a Custom Domain and Enable SSL
+
+### Add DNS Records
+
+From your domain provider, create an A record pointing to your VPS IP.
+
+Example:
+
+- Type: A
+- Name: coolify or * (wildcard)
+- Value: YOUR_SERVER_IP
+
+A wildcard record allows unlimited subdomains without extra DNS entries.
+
+### Configure Domain Inside Coolify
+
+Go to Settings, then Instance Domain. Enter your domain with HTTPS (for example, https://coolify.example.com). Save the settings.
+
+Coolify will automatically:
+
+- Verify DNS
+- Request SSL certificates
+- Secure the dashboard with HTTPS
+
+## Step 6: Secure Your Server Before Production
+
+### Enable Firewall (UFW)
+
+```bash
+ufw allow 22/tcp    # SSH
+ufw allow 80/tcp    # HTTP
+ufw allow 443/tcp   # HTTPS
+ufw allow 8000/tcp  # Coolify panel (temporary)
+ufw enable
+```
+
+Once your domain works, you can block port 8000 to prevent IP-based access.
+
+### Create a Non-Root Admin User
+
+```bash
+adduser admin
+usermod -aG sudo admin
+```
+
+### Install Fail2Ban
+
+```bash
+apt install fail2ban -y
+systemctl enable fail2ban
+```
+
+This protects against brute-force login attempts.
+
+### Enable Automatic Security Updates
+
+```bash
+apt install unattended-upgrades -y
+dpkg-reconfigure -plow unattended-upgrades
+```
+
+## Step 7: Deploy Your First Application
+
+### Create a Project
+
+Go to Projects, create a new project, and add an environment (for example, Production).
+
+### Deploy from GitHub
+
+Add a new Application, select GitHub (public repo or GitHub App), and choose a build method:
+
+- Nixpacks (auto-detect)
+- Dockerfile
+- Static site
+- Docker Compose
+
+Configure environment variables and click Deploy. Coolify handles the build, container creation, and live deployment.
+
+## Step 8: Add Databases, Backups, and Monitoring
+
+### Databases and Services
+
+You can add:
+
+- PostgreSQL
+- MySQL
+- MongoDB
+- Redis
+- Search engines and queues
+
+Each service runs in its own container.
+
+### Backups
+
+Schedule automatic database backups, send backups to S3-compatible storage, and monitor backup success directly from the dashboard.
+
+### Monitoring
+
+Coolify includes:
+
+- Disk usage alerts
+- Container health checks
+- Deployment logs
+- Email notifications
+
+## Step 9: Ongoing Maintenance Best Practices
+
+- Keep Coolify auto-updates enabled
+- Monitor CPU, RAM, and storage regularly
+- Review user access and activity logs
+- Periodically audit firewall and SSH rules
+
+## Final Thoughts
+
+Coolify bridges the gap between full DevOps complexity and expensive managed platforms. With one VPS, you can host multiple applications, databases, and services securely, without losing control or flexibility.
+
+If you are an agency, freelancer, or developer who values ownership and predictable costs, Coolify is a powerful foundation for modern deployments.

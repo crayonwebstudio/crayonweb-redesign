@@ -18,6 +18,8 @@ export interface Service {
   detailList?: ServiceDetail[];
   benefits?: string[];
   whyUs?: string[];
+  tags?: string[];
+  faqs?: { q: string; a: string }[];
 }
 
 export const services: Service[] = [
@@ -27,7 +29,15 @@ export const services: Service[] = [
     short:
       'User-centric web design that drives engagement and conversions. We craft beautiful, mobile-friendly websites with exceptional UX.',
     intro:
-      'Web design trends: user-centric web design that drives engagement and conversions. We craft beautiful, mobile-friendly websites with exceptional UX.',
+      'At Crayonweb, we specialize in professional web design services that help your business stand out in the digital landscape. Our approach focuses on creating visually compelling, user-friendly websites tailored to your brand identity and business goals. Whether you are launching a new site or revamping an existing one, our experienced designers prioritize both form and function.',
+    deliverables: [
+      'Custom Website Design',
+      'Responsive Design',
+      'Website Redesign and Refresh',
+      'UI/UX Design',
+      'CMS Integration',
+      'SEO Integration',
+    ],
     sections: [
       {
         heading: 'Responsive and mobile-friendly design',
@@ -52,6 +62,21 @@ export const services: Service[] = [
         paragraphs: [
           'Staying ahead means incorporating modern design trends balanced with timeless usability principles. We implement SEO-friendly structures, fast-loading pages, and accessibility features to ensure your website reaches and resonates with the widest audience possible. Partner with Crayonweb for web design services that combine creativity, technology, and strategy to create digital experiences that captivate, convert, and grow your business.',
         ],
+      },
+    ],
+    tags: ['UX/UI Design Services', 'Web Content Accessibility', 'Latest Web Design Trends'],
+    faqs: [
+      {
+        q: 'What makes a well-structured website layout?',
+        a: 'A well-structured website layout balances visual appeal with functionality, guiding visitors smoothly through your content. It uses clear navigation, consistent branding, and responsive design to create an engaging user experience that supports your business goals.',
+      },
+      {
+        q: 'Why partner with a business agency for web design?',
+        a: 'Partnering with a business agency ensures expert strategic guidance, consistent brand messaging, and access to a full team of specialists who collaborate to build and elevate your brand effectively across all channels. An agency offers a diverse team with broad expertise, proven processes, and robust resources, enabling comprehensive solutions and faster delivery compared to individual freelancers who may have limited capacity.',
+      },
+      {
+        q: 'How much does branding cost?',
+        a: 'Branding costs vary based on project scope and complexity. We offer tailored packages to fit your needs and budget, contact us for a personalized quote and consultation.',
       },
     ],
   },
@@ -126,6 +151,23 @@ export const services: Service[] = [
       'Build credibility and foster loyalty among your customers',
       'Achieve consistency across all marketing platforms',
     ],
+    tags: [
+      'branding',
+      'brand identity',
+      'visual identity',
+      'logo design',
+      'brand strategy',
+      'business branding',
+      'brand guidelines',
+      'creative services',
+      'rebranding',
+      'professional branding',
+      'messaging',
+      'brand consistency',
+      'company identity',
+      'marketing',
+      'graphic design',
+    ],
   },
   {
     slug: 'smart-growth-marketing',
@@ -162,6 +204,19 @@ export const services: Service[] = [
       'Transparent Reporting',
       'Proven Track Record',
       'Customer-Centric Support',
+    ],
+    tags: [
+      'SEO services',
+      'search engine optimization',
+      'on-page SEO',
+      'off-page SEO',
+      'technical SEO',
+      'keyword research',
+      'link building',
+      'local SEO',
+      'SEO audit',
+      'SEO strategy',
+      'content optimization',
     ],
   },
   {
@@ -227,6 +282,23 @@ export const services: Service[] = [
       'End-to-End Service',
       'Proven Results',
     ],
+    tags: [
+      'commercial video',
+      'advertising video',
+      'brand video production',
+      'promotional video',
+      'video marketing',
+      'corporate advertising',
+      'video branding',
+      'TV commercials',
+      'social media ads',
+      'video storytelling',
+      'product demo video',
+      'video content creation',
+      'call-to-action video',
+      'high-quality production',
+      'marketing campaign video',
+    ],
   },
   {
     slug: 'ai-powered-business-solutions',
@@ -285,6 +357,23 @@ export const services: Service[] = [
       'Collaborative Partnership',
       'Future-Ready Solutions',
     ],
+    tags: [
+      'AI-powered business solutions',
+      'artificial intelligence',
+      'AI automation',
+      'machine learning',
+      'AI video production',
+      'generative AI',
+      'AI content creation',
+      'AI marketing tools',
+      'AI analytics',
+      'AI chatbot',
+      'AI-driven video editing',
+      'AI-powered marketing',
+      'business process automation',
+      'AI video generator',
+      'AI digital transformation',
+    ],
   },
   {
     slug: 'mobile-application',
@@ -320,6 +409,23 @@ export const services: Service[] = [
       'End-to-End Support',
       'User-Centered Design',
       'Agile Methodology',
+    ],
+    tags: [
+      'mobile app development',
+      'iOS app development',
+      'Android app development',
+      'cross-platform apps',
+      'hybrid app development',
+      'React Native',
+      'Flutter apps',
+      'mobile UI/UX design',
+      'app maintenance',
+      'enterprise mobile apps',
+      'app integration',
+      'app testing',
+      'mobile app security',
+      'app prototyping',
+      'mobile app launch',
     ],
   },
   {
@@ -405,6 +511,23 @@ export const services: Service[] = [
       'Robust Security',
       'Ongoing Support',
       'Scalable and Future-Proof',
+    ],
+    tags: [
+      'CMS',
+      'Content Management System',
+      'Website Management',
+      'CMS Development',
+      'Custom CMS Solutions',
+      'Headless CMS',
+      'CMS Integration',
+      'CMS Migration',
+      'Multi-site Management',
+      'SEO Friendly CMS',
+      'Digital Content Management',
+      'CMS Support',
+      'Content Editing',
+      'User Roles and Permissions',
+      'Website Maintenance',
     ],
   },
 ];

@@ -1,0 +1,37 @@
+---
+const faqs = [
+  {
+    q: 'What services do you offer?',
+    a: 'We provide web/app development, UI/UX design, branding, and IT solutions.',
+  },
+  {
+    q: 'How do I get started with your team?',
+    a: 'Just contact us, share your vision, and we will take it from there.',
+  },
+  {
+    q: 'Can you work with tight deadlines?',
+    a: 'Yes, we deliver quality work even on fast timelines, without compromise.',
+  },
+  {
+    q: 'Do you offer post-launch support?',
+    a: 'Absolutely. We provide ongoing updates, monitoring, and maintenance.',
+  },
+];
+---
+
+<section class="mx-auto max-w-[1440px] px-5 py-24 md:px-10 md:py-32">
+  <p class="text-xs uppercase tracking-[0.2em] text-muted">Answers that Matter, Clarity that Empowers</p>
+  <h2 class="mt-4 max-w-2xl font-display text-3xl font-semibold leading-tight tracking-tight md:text-5xl">Explore our most asked questions.</h2>
+  <p class="mt-4 max-w-2xl leading-relaxed text-muted">Quick insights into what we offer, how we work, and how we help you succeed.</p>
+  <div class="mt-12 max-w-3xl">
+    {faqs.map((f, i) => (
+      <details class="group border-t border-hairline py-6 last:border-b" open={i === 0}>
+        <summary class="flex cursor-pointer list-none items-baseline justify-between gap-4">
+          <span class="font-display text-xl font-semibold md:text-2xl">{f.q}</span>
+          <span class="shrink-0 font-display text-2xl text-muted transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+        </summary>
+        <p class="mt-4 max-w-2xl leading-relaxed text-muted">{f.a}</p>
+      </details>
+    ))}
+  </div>
+</section>
