@@ -23,14 +23,16 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 body {
   background-color: var(--color-canvas);
-  background-image:
-    linear-gradient(to right, rgb(10 10 10 / 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(10 10 10 / 0.045) 1px, transparent 1px);
-  background-size: 64px 64px;
   color: var(--color-ink);
   font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(10 10 10 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(10 10 10 / 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
 }
 h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
 ::selection { background: #FCD16E; color: #0A0A0A; }

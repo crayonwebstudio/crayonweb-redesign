@@ -17,6 +17,7 @@ const work = defineCollection({
     techStack: z.array(z.string()),
     category: z.enum(['Web/TYPO3', 'E-Commerce', 'Brand/UI', 'Mobile']),
     cover: z.string(),
+    hoverImage: z.string().optional(),
     initials: z.string(),
     liveUrl: z.string().optional(),
   }),

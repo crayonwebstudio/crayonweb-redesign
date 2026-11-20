@@ -12,6 +12,7 @@ solution: "We built a Laravel and Vue.js platform with live course availability,
 techStack: ["Laravel", "Vue.js", "MySQL", "Stripe", "Tailwind CSS"]
 category: "Web/TYPO3"
 cover: "linear-gradient(135deg, #0b3d3a 0%, #147a72 60%, #7fd1c8 100%)"
+hoverImage: "/work/boat-school.jpg"
 initials: "BS"
 ---
 

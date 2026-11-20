@@ -12,6 +12,7 @@ solution: "We designed a bespoke TYPO3 portfolio with flexible content blocks, g
 techStack: ["TYPO3 v13", "Fluid", "GSAP", "Astro"]
 category: "Web/TYPO3"
 cover: "linear-gradient(135deg, #FCD16E 0%, #f5e6b8 45%, #FAFAFA 100%)"
+hoverImage: "/work/arnold-poeppl.jpg"
 initials: "AP"
 ---
 

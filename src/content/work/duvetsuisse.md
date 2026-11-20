@@ -12,6 +12,7 @@ solution: "We rebuilt the storefront on Magento 2 with a quiet, editorial design
 techStack: ["Magento 2", "PHP", "MySQL", "Elasticsearch", "Varnish"]
 category: "E-Commerce"
 cover: "linear-gradient(135deg, #e8e2d6 0%, #f5f1e8 50%, #d9cfbd 100%)"
+hoverImage: "/work/duvetsuisse.jpg"
 initials: "Du"
 ---
 

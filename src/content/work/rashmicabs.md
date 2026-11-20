@@ -12,6 +12,7 @@ solution: "We built a headless platform with Next.js on the front, Strapi as the
 techStack: ["Next.js", "Strapi", "React Native", "PostgreSQL", "REST API"]
 category: "Mobile"
 cover: "linear-gradient(135deg, #1a3a5c 0%, #2f6db3 60%, #7fb3e8 100%)"
+hoverImage: "/work/rashmicabs.jpg"
 initials: "Rc"
 ---
 

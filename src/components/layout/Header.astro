@@ -1,52 +1,122 @@
 ---
-const nav = [
-  { label: 'Work', href: '/work' },
-  { label: 'Studio', href: '/studio' },
-  { label: 'Lab', href: '/lab' },
-  { label: 'Journal', href: '/journal' },
+const services = [
+  { label: 'Web Design', href: '/service/web-design' },
+  { label: 'Web Development', href: '/service/web-development' },
+  { label: 'Branding And Identity', href: '/service/branding-and-identity' },
+  { label: 'Smart Growth Marketing', href: '/service/smart-growth-marketing' },
+  { label: 'Media Creation Services', href: '/service/media-creation-services' },
+  { label: 'AI-Powered Business Solutions', href: '/service/ai-powered-business-solutions' },
+  { label: 'Mobile Application', href: '/service/mobile-application' },
+  { label: 'CMS Solution', href: '/service/cms-solution' },
+];
+const menu = [
+  { label: 'Home', href: '/' },
+  { label: 'About Us', href: '/studio' },
+  { label: 'Services', href: '/services', children: services },
+  { label: 'Careers', href: '/careers' },
+  { label: 'Portfolio', href: '/work' },
+  { label: 'Blogs', href: '/journal' },
   { label: 'Contact', href: '/contact' },
 ];
-const current = Astro.url.pathname;
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 border-b border-hairline bg-canvas/90 backdrop-blur-md">
-  <div class="mx-auto flex max-w-[1440px] items-center justify-between px-5 py-4 md:px-10">
-    <a href="/" data-cursor="Home" aria-label="Crayonweb Studio, home">
-      <img src="/logo/crayon-bird.png" alt="Crayonweb Studio" width="166" height="165" class="h-9 w-auto" />
+<header class="relative z-40">
+  <div class="mx-auto flex max-w-[1440px] items-start justify-between px-5 md:px-10">
+    <a href="/" data-cursor="Home" aria-label="Crayonweb Studio, home" class="block py-4">
+      <img src="/logo/crayon-bird.png" alt="Crayonweb Studio" width="166" height="165" class="h-16 w-auto md:h-20" />
     </a>
-    <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
-      {nav.map((item) => (
-        <a
-          href={item.href}
-          class:list={[
-            'text-sm transition-colors hover:text-ink',
-            current === item.href || (item.href !== '/' && current.startsWith(item.href)) ? 'text-ink font-medium' : 'text-muted',
-          ]}
-          aria-current={current === item.href ? 'page' : undefined}
-        >
-          {item.label}
-        </a>
-      ))}
-    </nav>
-    <div class="hidden items-center gap-5 lg:flex">
-      <a href="mailto:info@crayonwebstudio.com" class="text-sm text-muted transition-colors hover:text-ink">info@crayonwebstudio.com</a>
-      <span class="text-sm text-ink tabular-nums" id="bhavnagar-clock" title="Bhavnagar, India">Bhavnagar --:-- IST</span>
+    <div class="flex h-[88px] items-center gap-6 bg-ink px-5 md:px-8">
+      <a href="mailto:info@crayonwebstudio.com" class="hidden text-sm font-bold text-white transition-colors hover:text-[#FCD16E] sm:block">info@crayonwebstudio.com</a>
+      <button id="menu-open" type="button" aria-label="Sidebar Menu" aria-controls="site-menu" aria-expanded="false" class="flex h-10 w-10 flex-col items-end justify-center gap-[7px]">
+        <span class="block h-[2px] w-7 bg-white"></span>
+        <span class="block h-[2px] w-5 bg-white"></span>
+      </button>
     </div>
-    <a href="/contact" class="rounded-full bg-ink px-4 py-2 text-sm font-medium text-canvas transition-transform hover:scale-[1.03] md:hidden">Contact</a>
   </div>
-  <nav class="flex items-center gap-6 overflow-x-auto border-t border-hairline px-5 py-2.5 md:hidden" aria-label="Mobile">
-    {nav.map((item) => (
-      <a href={item.href} class:list={['whitespace-nowrap text-sm', current === item.href ? 'text-ink font-medium' : 'text-muted']}>{item.label}</a>
-    ))}
-  </nav>
 </header>
+
+<div id="site-menu" class="fixed inset-0 z-[100] hidden overflow-y-auto bg-canvas" role="dialog" aria-modal="true" aria-label="Site menu">
+  <div class="flex min-h-full flex-col md:flex-row">
+    <nav class="flex flex-1 flex-col justify-center bg-ink px-8 py-20 md:w-1/2 md:px-16" aria-label="Menu">
+      <ul class="space-y-5">
+        {menu.map((item) => (
+          <li>
+            {item.children ? (
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="h-[2px] w-6 shrink-0 bg-white/60" aria-hidden="true"></span>
+                <a href={item.href} class="menu-link font-display text-3xl font-bold uppercase tracking-tight text-white transition-colors hover:text-[#FCD16E] md:text-4xl">{item.label}</a>
+                <button type="button" class="submenu-toggle flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/50 text-xl leading-none text-white transition-colors hover:border-[#FCD16E] hover:text-[#FCD16E]" aria-label={`Toggle ${item.label} submenu`} aria-expanded="false">+</button>
+                <ul class="submenu hidden w-full space-y-3 pl-12 pt-2">
+                  {item.children.map((child) => (
+                    <li><a href={child.href} class="menu-link text-base font-medium text-white/80 transition-colors hover:text-[#FCD16E]">{child.label}</a></li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <div class="flex items-center gap-3">
+                <span class="h-[2px] w-6 shrink-0 bg-white/60" aria-hidden="true"></span>
+                <a href={item.href} class="menu-link font-display text-3xl font-bold uppercase tracking-tight text-white transition-colors hover:text-[#FCD16E] md:text-4xl">{item.label}</a>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <div class="flex flex-1 flex-col justify-center gap-8 bg-surface px-8 py-16 md:w-1/2 md:px-16">
+      <img src="/logo/crayon-logo-dark.png" alt="Crayonweb Studio" width="279" height="85" class="h-12 w-auto self-start" />
+      <div class="flex gap-5 text-sm font-medium">
+        <a href="https://www.facebook.com/crayonwebstudio" target="_blank" rel="noreferrer" class="hover:underline">Facebook</a>
+        <a href="https://x.com" target="_blank" rel="noreferrer" class="hover:underline">X</a>
+        <a href="https://www.linkedin.com/company/crayonwebstudio" target="_blank" rel="noreferrer" class="hover:underline">LinkedIn</a>
+        <a href="https://www.instagram.com" target="_blank" rel="noreferrer" class="hover:underline">Instagram</a>
+      </div>
+      <ul class="space-y-2 text-base">
+        <li><a href="tel:+919624052424" class="hover:underline">+91 96240 52424</a></li>
+        <li><a href="mailto:info@crayonwebstudio.com" class="hover:underline">info@crayonwebstudio.com</a></li>
+      </ul>
+      <p class="text-sm text-muted">319, 3rd Floor, Sagar Complex, Jasonath Chowk,<br />Bhavnagar-364001, Gujarat, India</p>
+    </div>
+  </div>
+  <button id="menu-close" type="button" aria-label="Close menu" class="absolute right-5 top-5 flex h-11 w-11 items-center justify-center rounded-full bg-ink text-xl text-white transition-colors hover:bg-[#FCD16E] hover:text-ink md:right-8">&#10005;</button>
+</div>
+
 <script>
-  function tickClock() {
-    const el = document.getElementById('bhavnagar-clock');
-    if (!el) return;
-    const t = new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' });
-    el.textContent = `Bhavnagar ${t} IST`;
+  function initSiteMenu() {
+    const overlay = document.getElementById('site-menu');
+    const openBtn = document.getElementById('menu-open');
+    const closeBtn = document.getElementById('menu-close');
+    if (!overlay || !openBtn || !closeBtn || openBtn.dataset.bound) return;
+    openBtn.dataset.bound = 'true';
+    function openMenu() {
+      overlay.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      openBtn.setAttribute('aria-expanded', 'true');
+      closeBtn.focus();
+    }
+    function closeMenu() {
+      overlay.classList.add('hidden');
+      document.body.style.overflow = '';
+      openBtn.setAttribute('aria-expanded', 'false');
+      openBtn.focus();
+    }
+    openBtn.addEventListener('click', openMenu);
+    closeBtn.addEventListener('click', closeMenu);
+    overlay.querySelectorAll('.menu-link').forEach((a) => a.addEventListener('click', closeMenu));
+    overlay.querySelectorAll('.submenu-toggle').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const wrap = btn.closest('div');
+        const sub = wrap?.querySelector('.submenu');
+        const link = wrap?.querySelector('a');
+        const open = sub?.classList.toggle('hidden') === false;
+        btn.textContent = open ? '−' : '+';
+        btn.setAttribute('aria-expanded', String(open));
+        if (link) link.style.color = open ? '#FCD16E' : '';
+      });
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !overlay.classList.contains('hidden')) closeMenu();
+    });
   }
-  tickClock();
-  setInterval(tickClock, 20000);
+  initSiteMenu();
+  document.addEventListener('astro:page-load', initSiteMenu);
 </script>

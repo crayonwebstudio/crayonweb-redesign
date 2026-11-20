@@ -12,6 +12,7 @@ solution: "We rebuilt the platform on TYPO3 with a shared content model, one sou
 techStack: ["TYPO3 v13", "Fluid", "Tailwind CSS", "GDPR Consent", "Vite"]
 category: "Web/TYPO3"
 cover: "linear-gradient(135deg, #0A0A0A 0%, #2b2b2b 55%, #4a4a4a 100%)"
+hoverImage: "/work/novanox.jpg"
 initials: "Nx"
 ---
 
