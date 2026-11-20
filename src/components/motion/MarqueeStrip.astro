@@ -1,0 +1,15 @@
+---
+interface Props { items: string[]; href?: string; }
+const { items, href = '/lab' } = Astro.props;
+const row = [...items, ...items];
+---
+
+<a href={href} class="block overflow-hidden border-y border-hairline py-5" data-cursor="Explore Lab" aria-label="Explore the Lab">
+  <div class="marquee-track flex w-max items-center gap-10 whitespace-nowrap">
+    {row.map((item, i) => (
+      <span class="flex items-center gap-10 font-display text-2xl font-semibold tracking-tight md:text-3xl" aria-hidden={i >= items.length}>
+        {item}<span class="inline-block h-2.5 w-2.5 rounded-full bg-accent" aria-hidden="true"></span>
+      </span>
+    ))}
+  </div>
+</a>

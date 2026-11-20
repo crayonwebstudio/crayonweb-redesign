@@ -1,0 +1,50 @@
+---
+import RevealText from '../motion/RevealText.astro';
+---
+
+<section class="mx-auto max-w-[1440px] px-5 pt-36 md:px-10 md:pt-44">
+  <p class="reveal-fade text-xs uppercase tracking-[0.2em] text-muted">Crayonweb Studio, Bhavnagar, India</p>
+  <RevealText
+    as="h1"
+    class="mt-6 font-display text-[clamp(2.6rem,6.2vw,5.2rem)] font-semibold leading-[1.02] tracking-tight"
+    lines={['Creative digital studio crafting', 'bespoke interfaces, headless', 'platforms, and scalable commerce.']}
+  />
+  <div class="mt-8 flex flex-wrap items-end justify-between gap-6">
+    <p class="reveal-fade max-w-md text-lg leading-relaxed text-muted">Independent digital studio partnering with ambitious brands across Europe and worldwide.</p>
+    <div class="reveal-fade flex gap-3">
+      <a href="/work" class="rounded-full bg-ink px-6 py-3 text-sm font-medium text-canvas transition-transform hover:scale-[1.03]">See selected work</a>
+      <a href="/contact" class="rounded-full border border-ink px-6 py-3 text-sm font-medium transition-colors hover:bg-surface">Start a project</a>
+    </div>
+  </div>
+
+  <div class="reveal-cover relative mt-14 overflow-hidden rounded-xl" data-cursor="Play Reel" id="reel-stage" role="button" tabindex="0" aria-label="Play showreel">
+    <div class="reel-drift relative aspect-[16/8] w-full md:aspect-[16/7]" style="background: linear-gradient(120deg, #0A0A0A 0%, #2b2b2b 35%, #6b5a2a 65%, #FCD16E 100%);">
+      <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.6) 0, transparent 40%), radial-gradient(circle at 80% 70%, rgba(0,0,0,0.4) 0, transparent 50%);"></div>
+      <p class="absolute bottom-6 left-6 font-display text-2xl font-semibold text-white md:bottom-10 md:left-10 md:text-4xl">Showreel 2026</p>
+      <p class="absolute bottom-6 right-6 text-sm text-white/80 md:bottom-10 md:right-10">Brand, Web, Commerce, AI, 01:24</p>
+    </div>
+    <span class="absolute left-1/2 top-1/2 flex h-20 w-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-canvas font-display text-sm font-semibold shadow-lg">Play</span>
+  </div>
+
+  <div id="reel-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-ink/95 p-5" role="dialog" aria-modal="true" aria-label="Showreel">
+    <button id="reel-close" type="button" class="absolute right-6 top-6 rounded-full border border-white/40 px-5 py-2.5 text-sm text-white hover:bg-white hover:text-ink">Close, Esc</button>
+    <div class="w-full max-w-4xl">
+      <div class="relative aspect-video w-full overflow-hidden rounded-xl" style="background: linear-gradient(120deg, #0A0A0A, #2b2b2b 40%, #6b5a2a 75%, #FCD16E);">
+        <p class="absolute inset-0 flex items-center justify-center text-center font-display text-2xl font-semibold text-white md:text-4xl">Crayonweb Studio, Showreel 2026<br /><span class="mt-2 block text-base font-normal text-white/80">Brand, TYPO3, Headless, Commerce, AI</span></p>
+      </div>
+      <p class="mt-4 text-center text-sm text-white/70">Showreel placeholder: final video ships with the launch cut. Press Esc or Close to return.</p>
+    </div>
+  </div>
+</section>
+<script>
+  const stage = document.getElementById('reel-stage');
+  const modal = document.getElementById('reel-modal');
+  const closeBtn = document.getElementById('reel-close');
+  function openReel() { modal?.classList.remove('hidden'); modal?.classList.add('flex'); closeBtn?.focus(); }
+  function closeReel() { modal?.classList.add('hidden'); modal?.classList.remove('flex'); stage?.focus(); }
+  stage?.addEventListener('click', openReel);
+  stage?.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openReel(); } });
+  closeBtn?.addEventListener('click', closeReel);
+  modal?.addEventListener('click', (e) => { if (e.target === modal) closeReel(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) closeReel(); });
+</script>

@@ -1,0 +1,11 @@
+# Legacy URL redirects, template for Netlify / Cloudflare Pages
+# Format: old path, new path, status. Update each line after the legacy URL audit.
+# /services /studio 301
+# /services/web-design /work 301
+# /services/typo3 /work/novanox 301
+# /portfolio /work 301
+# /portfolio/novanox /work/novanox 301
+# /blog /journal 301
+# /blog/typo3-v14-lts-overview /journal/typo3-v14-lts-overview 301
+# /about /studio 301
+# /contact-us /contact 301

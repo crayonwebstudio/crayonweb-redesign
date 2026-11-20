@@ -1,0 +1,52 @@
+---
+const nav = [
+  { label: 'Work', href: '/work' },
+  { label: 'Studio', href: '/studio' },
+  { label: 'Lab', href: '/lab' },
+  { label: 'Journal', href: '/journal' },
+  { label: 'Contact', href: '/contact' },
+];
+const current = Astro.url.pathname;
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 border-b border-hairline bg-canvas/90 backdrop-blur-md">
+  <div class="mx-auto flex max-w-[1440px] items-center justify-between px-5 py-4 md:px-10">
+    <a href="/" class="font-display text-lg font-bold tracking-tight" data-cursor="Home">
+      Crayonweb<span class="text-muted font-medium"> Studio</span>
+    </a>
+    <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
+      {nav.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            'text-sm transition-colors hover:text-ink',
+            current === item.href || (item.href !== '/' && current.startsWith(item.href)) ? 'text-ink font-medium' : 'text-muted',
+          ]}
+          aria-current={current === item.href ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+    <div class="hidden items-center gap-5 lg:flex">
+      <a href="mailto:info@crayonwebstudio.com" class="text-sm text-muted transition-colors hover:text-ink">info@crayonwebstudio.com</a>
+      <span class="text-sm text-ink tabular-nums" id="bhavnagar-clock" title="Bhavnagar, India">Bhavnagar --:-- IST</span>
+    </div>
+    <a href="/contact" class="rounded-full bg-ink px-4 py-2 text-sm font-medium text-canvas transition-transform hover:scale-[1.03] md:hidden">Contact</a>
+  </div>
+  <nav class="flex items-center gap-6 overflow-x-auto border-t border-hairline px-5 py-2.5 md:hidden" aria-label="Mobile">
+    {nav.map((item) => (
+      <a href={item.href} class:list={['whitespace-nowrap text-sm', current === item.href ? 'text-ink font-medium' : 'text-muted']}>{item.label}</a>
+    ))}
+  </nav>
+</header>
+<script>
+  function tickClock() {
+    const el = document.getElementById('bhavnagar-clock');
+    if (!el) return;
+    const t = new Date().toLocaleTimeString('en-GB', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' });
+    el.textContent = `Bhavnagar ${t} IST`;
+  }
+  tickClock();
+  setInterval(tickClock, 20000);
+</script>

@@ -1,0 +1,20 @@
+---
+import MarqueeStrip from '../motion/MarqueeStrip.astro';
+const items = ['Crayon Wordmark Motion', 'TYPO3 Content Blocks', 'ERP Dashboard UI', 'E-Commerce PDP Study', 'Brand Palette System', 'Micro-Interactions', 'Headless Page Builder', 'AI Workflow UI'];
+---
+
+<section class="py-24 md:py-32">
+  <div class="mx-auto max-w-[1440px] px-5 md:px-10">
+    <div class="flex items-end justify-between gap-6">
+      <div>
+        <p class="text-xs uppercase tracking-[0.2em] text-muted">The Lab</p>
+        <h2 class="mt-4 font-display text-3xl font-semibold tracking-tight md:text-5xl">Experiments, in progress.</h2>
+      </div>
+      <a href="/lab" class="shrink-0 text-sm font-medium underline underline-offset-4">Visit the Lab</a>
+    </div>
+    <p class="mt-4 max-w-xl leading-relaxed text-muted">A playground for branding, interface, motion, and TYPO3 ideas. Some ship to clients, some stay as studies. All of it keeps the studio sharp.</p>
+  </div>
+  <div class="mt-12">
+    <MarqueeStrip items={items} href="/lab" />
+  </div>
+</section>

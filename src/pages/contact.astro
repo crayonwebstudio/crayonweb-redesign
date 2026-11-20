@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const scopes = ['Brand and UI/UX', 'Web and TYPO3', 'E-Commerce and ERP', 'Mobile and AI', 'Annual Care'];
+const budgets = ['Under $5k', '$5k to $15k', '$15k to $50k', '$50k+', 'To discuss'];
+const timelines = ['ASAP', '1 to 2 months', '3 to 6 months', 'Flexible'];
+---
+
+<BaseLayout title="Contact: Crayonweb Studio">
+  <section class="mx-auto max-w-[1440px] px-5 pb-24 pt-36 md:px-10 md:pt-44">
+    <p class="text-xs uppercase tracking-[0.2em] text-muted">Contact</p>
+    <h1 class="mt-4 max-w-3xl font-display text-[clamp(2.6rem,6vw,4.8rem)] font-semibold leading-[1.02] tracking-tight">Tell us about your project.</h1>
+    <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted">A short brief is enough. We reply within one business day with next steps and an honest timeline.</p>
+
+    <div class="mt-14 grid gap-14 lg:grid-cols-12">
+      <form id="contact-form" class="lg:col-span-7" novalidate>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div>
+            <label for="f-name" class="mb-2 block text-sm font-medium">Name</label>
+            <input id="f-name" name="name" required type="text" autocomplete="name" placeholder="Your name" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+          </div>
+          <div>
+            <label for="f-email" class="mb-2 block text-sm font-medium">Email</label>
+            <input id="f-email" name="email" required type="email" autocomplete="email" placeholder="you@company.com" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+          </div>
+        </div>
+
+        <fieldset class="mt-8">
+          <legend class="mb-3 text-sm font-medium">Project Scope</legend>
+          <div class="flex flex-wrap gap-2">
+            {scopes.map((s, i) => (
+              <label class="cursor-pointer">
+                <input type="checkbox" name="scope" value={s} class="peer sr-only" checked={i === 0} />
+                <span class="inline-block rounded-full border border-hairline bg-white px-4 py-2 text-sm transition-colors peer-checked:border-ink peer-checked:bg-ink peer-checked:text-canvas">{s}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <div class="mt-8 grid gap-6 sm:grid-cols-2">
+          <div>
+            <label for="f-budget" class="mb-2 block text-sm font-medium">Budget Range</label>
+            <select id="f-budget" name="budget" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink">
+              {budgets.map((b) => <option>{b}</option>)}
+            </select>
+          </div>
+          <div>
+            <label for="f-timeline" class="mb-2 block text-sm font-medium">Timeline</label>
+            <select id="f-timeline" name="timeline" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink">
+              {timelines.map((t) => <option>{t}</option>)}
+            </select>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <label for="f-brief" class="mb-2 block text-sm font-medium">Project Brief</label>
+          <textarea id="f-brief" name="brief" required rows="6" placeholder="What are you building, for whom, and by when?" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink"></textarea>
+        </div>
+
+        <p id="form-error" class="mt-4 hidden text-sm text-red-700">Please add your name, a valid email, and a short brief.</p>
+        <button type="submit" class="mt-8 rounded-full bg-ink px-8 py-3.5 text-sm font-medium text-canvas transition-transform hover:scale-[1.03]">Send inquiry</button>
+        <p class="mt-4 text-sm text-muted">This form does not submit anywhere yet. Your details stay in this browser until the inquiry backend is connected.</p>
+      </form>
+
+      <div id="form-success" class="hidden lg:col-span-7">
+        <div class="rounded-xl border border-hairline bg-surface p-10">
+          <p class="font-display text-3xl font-semibold">Thank you. Your inquiry is ready.</p>
+          <p class="mt-4 leading-relaxed text-muted">This is a local preview, so nothing was sent. In the live site this step hands your brief to the studio inbox. For now, you can send the same brief directly by email.</p>
+          <a id="mailto-fallback" href="mailto:info@crayonwebstudio.com?subject=Project%20inquiry" class="mt-6 inline-block rounded-full bg-ink px-6 py-3 text-sm font-medium text-canvas">Open email to info@crayonwebstudio.com</a>
+          <button id="form-reset" type="button" class="ml-3 mt-6 rounded-full border border-ink px-6 py-3 text-sm font-medium">Edit my brief</button>
+        </div>
+      </div>
+
+      <aside class="lg:col-span-5">
+        <div class="rounded-xl border border-hairline bg-surface p-8">
+          <p class="text-xs uppercase tracking-[0.2em] text-muted">Direct</p>
+          <ul class="mt-5 space-y-3 text-sm">
+            <li><a href="mailto:info@crayonwebstudio.com" class="font-medium underline underline-offset-4">info@crayonwebstudio.com</a></li>
+            <li><a href="tel:+919624052424" class="hover:underline">+91 96240 52424</a></li>
+            <li><a href="https://wa.me/919624052424" target="_blank" rel="noreferrer" class="hover:underline">WhatsApp, +91 96240 52424</a></li>
+          </ul>
+          <p class="mt-8 text-xs uppercase tracking-[0.2em] text-muted">Studio</p>
+          <address class="mt-4 text-sm not-italic leading-relaxed text-muted">319, 3rd Floor, Sagar Complex,<br />Jasonath Chowk,<br />Bhavnagar-364001, Gujarat, India</address>
+          <p class="mt-8 text-xs uppercase tracking-[0.2em] text-muted">Hours</p>
+          <p class="mt-4 text-sm text-muted">Mon to Sat, 10:00 to 19:00 IST.<br />European overlap hours by agreement.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+<script>
+  const form = document.getElementById('contact-form');
+  const success = document.getElementById('form-success');
+  const error = document.getElementById('form-error');
+  const mailto = document.getElementById('mailto-fallback');
+  const resetBtn = document.getElementById('form-reset');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get('name') || '').trim();
+    const email = String(data.get('email') || '').trim();
+    const brief = String(data.get('brief') || '').trim();
+    const valid = name.length > 1 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && brief.length > 10;
+    if (!valid) { error?.classList.remove('hidden'); return; }
+    error?.classList.add('hidden');
+    const scopes = data.getAll('scope').join(', ');
+    const subject = encodeURIComponent(`Project inquiry from ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nScope: ${scopes}\nBudget: ${data.get('budget')}\nTimeline: ${data.get('timeline')}\n\nBrief:\n${brief}`);
+    if (mailto) mailto.href = `mailto:info@crayonwebstudio.com?subject=${subject}&body=${body}`;
+    form.classList.add('hidden');
+    success?.classList.remove('hidden');
+    success?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  resetBtn?.addEventListener('click', () => {
+    success?.classList.add('hidden');
+    form?.classList.remove('hidden');
+  });
+</script>

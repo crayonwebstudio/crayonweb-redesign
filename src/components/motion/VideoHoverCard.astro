@@ -1,0 +1,26 @@
+---
+interface Props {
+  href: string;
+  cover: string;
+  initials: string;
+  title: string;
+  disciplines: string[];
+  year: number;
+  span?: string;
+  aspect?: string;
+}
+const { href, cover, initials, title, disciplines, year, span = '', aspect = 'aspect-[4/3]' } = Astro.props;
+---
+
+<a href={href} class:list={['work-card group block', span]} data-cursor="View Case" aria-label={`${title}, case study`}>
+  <div class:list={['reveal-cover relative overflow-hidden rounded-lg', aspect]} style={`background: ${cover}`}>
+    <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 25% 25%, rgba(255,255,255,0.7) 0, transparent 45%), radial-gradient(circle at 75% 80%, rgba(0,0,0,0.25) 0, transparent 50%);"></div>
+    <span class="work-cover absolute inset-0 flex items-center justify-center font-display text-7xl font-bold tracking-tight text-white/90 drop-shadow-sm md:text-8xl">{initials}</span>
+    <span class="work-arrow absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full bg-canvas text-ink" aria-hidden="true">&#8599;</span>
+  </div>
+  <div class="mt-4 flex items-baseline justify-between gap-4">
+    <h3 class="font-display text-xl font-semibold">{title}</h3>
+    <span class="shrink-0 text-sm tabular-nums text-muted">{year}</span>
+  </div>
+  <p class="mt-1 text-sm text-muted">{disciplines.join(', ')}</p>
+</a>
