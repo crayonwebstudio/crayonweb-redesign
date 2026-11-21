@@ -1,0 +1,50 @@
+---
+interface Props {
+  role: string;
+  prefix: string;
+}
+
+const { role, prefix } = Astro.props;
+---
+
+<form class="apply-form mt-12 rounded-xl border border-hairline bg-surface p-6 md:p-8" data-role={role} novalidate>
+  <h3 class="font-display text-xl font-semibold">Apply position</h3>
+  <p class="mt-2 text-sm text-muted">Send your application for {role}. This form does not submit anywhere yet. Your details stay in this browser until the application backend is connected.</p>
+  <div class="mt-6 grid gap-6 sm:grid-cols-2">
+    <div>
+      <label for={`apply-first-${prefix}`} class="mb-2 block text-sm font-medium">Your first name</label>
+      <input id={`apply-first-${prefix}`} name="firstName" required type="text" autocomplete="given-name" placeholder="Your first name" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+    </div>
+    <div>
+      <label for={`apply-last-${prefix}`} class="mb-2 block text-sm font-medium">Your last name</label>
+      <input id={`apply-last-${prefix}`} name="lastName" required type="text" autocomplete="family-name" placeholder="Your last name" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+    </div>
+    <div>
+      <label for={`apply-email-${prefix}`} class="mb-2 block text-sm font-medium">Your email address</label>
+      <input id={`apply-email-${prefix}`} name="email" required type="email" autocomplete="email" placeholder="you@example.com" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+    </div>
+    <div>
+      <label for={`apply-phone-${prefix}`} class="mb-2 block text-sm font-medium">Your phone number</label>
+      <input id={`apply-phone-${prefix}`} name="phone" required type="tel" autocomplete="tel" placeholder="+91 00000 00000" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+    </div>
+    <div>
+      <label for={`apply-exp-${prefix}`} class="mb-2 block text-sm font-medium">Working experience</label>
+      <input id={`apply-exp-${prefix}`} name="experience" required type="text" placeholder="For example, 2 years in UI/UX design" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+    </div>
+    <div>
+      <label for={`apply-cv-${prefix}`} class="mb-2 block text-sm font-medium">Upload your CV</label>
+      <input id={`apply-cv-${prefix}`} name="cv" type="file" accept=".pdf,.doc,.docx" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink" />
+    </div>
+  </div>
+  <div class="mt-6">
+    <label for={`apply-message-${prefix}`} class="mb-2 block text-sm font-medium">Your message</label>
+    <textarea id={`apply-message-${prefix}`} name="message" rows="4" placeholder="Why this role, in a few lines" class="w-full rounded-lg border border-hairline bg-white px-4 py-3 text-sm outline-none focus:border-ink"></textarea>
+  </div>
+  <p class="apply-error mt-4 hidden text-sm text-red-700">Please add your first and last name, a valid email, your phone number, and your working experience.</p>
+  <button type="submit" class="mt-6 rounded-full bg-ink px-8 py-3.5 text-sm font-medium text-canvas transition-transform hover:scale-[1.03]">Submit</button>
+  <div class="apply-success mt-6 hidden rounded-lg border border-hairline bg-canvas p-6">
+    <p class="font-display text-lg font-semibold">Thank you. Your application is ready.</p>
+    <p class="mt-2 text-sm leading-relaxed text-muted">This is a local preview, so nothing was sent. Email your CV to hr@crayonwebstudio.com to complete your application for {role}.</p>
+    <a href={`mailto:hr@crayonwebstudio.com?subject=Application%20for%20${encodeURIComponent(role)}`} class="mt-4 inline-block rounded-full bg-ink px-6 py-3 text-sm font-medium text-canvas">Email your CV to hr@crayonwebstudio.com</a>
+  </div>
+</form>

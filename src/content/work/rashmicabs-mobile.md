@@ -12,6 +12,7 @@ solution: "We built a React Native app for drivers and customers that shares one
 techStack: ["React Native", "REST API", "PostgreSQL"]
 category: "Mobile Application"
 cover: "linear-gradient(135deg, #0d2b45 0%, #1a5c8a 60%, #4da3d8 100%)"
+hoverImage: "/work/rashmicabs-mobile.jpg"
 initials: "Rm"
 ---
 

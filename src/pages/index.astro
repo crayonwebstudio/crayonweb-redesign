@@ -6,7 +6,6 @@ import StudioPillars from '../components/sections/StudioPillars.astro';
 import ClientRoster from '../components/sections/ClientRoster.astro';
 import Testimonials from '../components/sections/Testimonials.astro';
 import Faq from '../components/sections/Faq.astro';
-import LabPreview from '../components/sections/LabPreview.astro';
 import { getCollection } from 'astro:content';
 
 const capabilities = [
@@ -126,6 +125,4 @@ const latestPosts = (await getCollection('journal')).sort((a, b) => b.data.publi
       ))}
     </div>
   </section>
-
-  <LabPreview />
 </BaseLayout>
