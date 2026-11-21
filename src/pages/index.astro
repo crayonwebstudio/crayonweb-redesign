@@ -17,14 +17,6 @@ const capabilities = [
   { title: 'API Development', text: 'Connect systems and apps with seamless backend integrations.' },
 ];
 
-const webSolutions = [
-  { label: 'CMS solutions', count: 8 },
-  { label: 'API development', count: 10 },
-  { label: 'Mobile applications', count: 1 },
-  { label: 'E-commerce solutions', count: 2 },
-  { label: 'ERPNext Solution', count: 10 },
-];
-
 const values = [
   { n: '01', title: 'Innovate Fearlessly', text: 'We craft smart, future-ready digital solutions.' },
   { n: '02', title: 'Empower Businesses', text: 'Technology that fuels growth and efficiency.' },
@@ -38,24 +30,6 @@ const latestPosts = (await getCollection('journal')).sort((a, b) => b.data.publi
 
 <BaseLayout title="Crayonweb Studio: Digital Studio, Bhavnagar and Worldwide">
   <HeroReel />
-
-  <section class="mx-auto max-w-[1440px] px-5 py-16 md:px-10">
-    <div class="overflow-hidden rounded-lg border border-hairline">
-      <div class="flex items-baseline justify-between gap-6 bg-ink p-8 text-canvas md:p-10">
-        <p class="font-display text-5xl font-semibold md:text-6xl">150+</p>
-        <p class="text-sm text-white/70">Total Projects</p>
-      </div>
-      <p class="border-t border-hairline bg-canvas px-8 pt-6 text-xs font-medium uppercase tracking-[0.2em] text-muted">Web Solutions</p>
-      <div class="grid gap-px bg-hairline sm:grid-cols-2 md:grid-cols-5">
-        {webSolutions.map((s) => (
-          <div class="bg-canvas p-8">
-            <p class="font-display text-4xl font-semibold">{s.count}</p>
-            <p class="mt-2 text-sm text-muted">{s.label}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
 
   <SelectedWorks />
 
